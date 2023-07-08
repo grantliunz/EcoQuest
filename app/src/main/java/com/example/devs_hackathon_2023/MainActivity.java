@@ -80,6 +80,9 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        // set a target location
+        map.setTargetLocation(-36.8509, 174.7719);
     }
 
     private void replaceFragment(int layoutResId) {

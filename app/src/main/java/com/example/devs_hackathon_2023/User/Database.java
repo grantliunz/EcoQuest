@@ -36,7 +36,7 @@ public abstract class Database {
                         double questTime = jsonQuests.getJSONObject(j).getDouble("time");
                         Boolean questCompleted = jsonQuests.getJSONObject(j).getBoolean("completed");
                         int questPoints = jsonQuests.getJSONObject(j).getInt("points");
-                        quests.add(new Quest(questName, questDescription, questId, questPoints, questTime, questCompleted));
+                        quests.add(new Quest(questName, questDescription, questId, questPoints, questTime, questCompleted, 123));
                     }
                     players.add(new Player(name, id, location, quests, steps));
                 }
