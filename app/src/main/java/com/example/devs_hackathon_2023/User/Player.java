@@ -11,41 +11,48 @@ public class Player{
     private Location location;
     private List<Quest> quests;
     private int steps;
-    private int money;
-    private List<MainPlayer> friends;
 
-    public Player(String name, String id, int score, Location location, List<Quest> quests, int steps, int money, List<MainPlayer> friends) {
+    public Player(String name, String id, Location location, List<Quest> quests, int steps) {
         this.name = name;
         this.id = id;
-        this.score = score;
         this.location = location;
         this.quests = quests;
         this.steps = steps;
-        this.money = money;
-        this.friends = friends;
+        calcScore(quests);
     }
 
     public int getSteps() {
         return steps;
     }
 
-    public void setSteps(int steps) {
-        this.steps = steps;
+    public String getName() {
+        return name;
     }
 
-    public int getMoney() {
-        return money;
+    public String getId() {
+        return id;
     }
 
-    public void setMoney(int money) {
-        this.money = money;
+    public int getScore() {
+        return score;
     }
 
-    public List<MainPlayer> getFriends() {
-        return friends;
+    public Location getLocation() {
+        return location;
     }
 
-    public void addFriend(MainPlayer friend) {
-        this.friends.add(friend);
+    public List<Quest> getQuests() {
+        return quests;
     }
+
+    private void calcScore(List<Quest> quests){
+        int score = 0;
+        for (Quest quest: quests){
+            if (quest.isCompleted()){
+                score += quest.getValue();
+            }
+        }
+        this.score = score;
+    }
+
 }
