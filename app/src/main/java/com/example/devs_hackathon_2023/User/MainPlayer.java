@@ -115,6 +115,16 @@ public abstract class MainPlayer {
         quest.setCompleted(true);
         score += quest.getValue();
     }
+
+    public static void setupScore(){
+        // loop through and tally completed quests
+        score = 0;
+        for (Quest quest : quests) {
+            if (quest.isCompleted()) {
+                score += quest.getValue();
+            }
+        }
+    }
     public static Emote getCurrentEmote(){
         return currentEmote;
     }

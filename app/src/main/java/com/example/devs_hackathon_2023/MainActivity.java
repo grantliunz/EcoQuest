@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         MainPlayer.setName("John Doe");
         MainPlayer.setScore(30);
         MainPlayer.setupQuest();
+        MainPlayer.setupScore();
 
     }
 
