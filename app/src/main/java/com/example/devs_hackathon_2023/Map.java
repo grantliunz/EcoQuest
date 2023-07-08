@@ -5,6 +5,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -59,8 +60,17 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.DirectionsApi;
+import com.google.maps.GeoApiContext;
+import com.google.maps.model.DirectionsResult;
+import com.google.maps.model.DirectionsRoute;
+import com.google.maps.model.TravelMode;
+import com.google.maps.DirectionsApiRequest;
+import com.google.maps.android.PolyUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 
@@ -341,6 +351,17 @@ public class Map extends Fragment implements OnMapReadyCallback,
             }
         }
 
+        if (currentLocation == null)
+            return true;
+        LatLng origin = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        //-36.8570, 174.7650
+        LatLng destination = new LatLng(-36.8570, 174.7650);
+        try {
+            drawRoute(origin, destination);
+        } catch (PackageManager.NameNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
         return true;
     }
 
@@ -484,5 +505,42 @@ public class Map extends Fragment implements OnMapReadyCallback,
         ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(Map.this.requireContext(), 0, R.anim.blow_up);
         startActivity(intent, options.toBundle());
     }
+    private void drawRoute(LatLng origin, LatLng destination) throws PackageManager.NameNotFoundException {
+        Context appContext = requireActivity().getApplicationContext();
+        ApplicationInfo ai = appContext.getPackageManager().getApplicationInfo(appContext.getPackageName(), PackageManager.GET_META_DATA);
+        Bundle metaData = ai.metaData;
+        String apiKey= metaData.getString("com.google.android.geo.API_KEY");
+
+        GeoApiContext geoApiContext = new GeoApiContext.Builder()
+                .apiKey(apiKey)
+                .build();
+
+        DirectionsApiRequest request = DirectionsApi.newRequest(geoApiContext)
+                .mode(TravelMode.WALKING)
+                .origin(new com.google.maps.model.LatLng(origin.latitude, origin.longitude))
+                .destination(new com.google.maps.model.LatLng(destination.latitude, destination.longitude));
+
+        try {
+            DirectionsResult result = request.await();
+
+            // Process the directions result
+            if (result.routes != null && result.routes.length > 0) {
+                DirectionsRoute route = result.routes[0];
+                // Retrieve the encoded polyline representing the route
+                String encodedPolyline = route.overviewPolyline.getEncodedPath();
+                // Decode the polyline into a list of LatLng points
+                List<LatLng> decodedPolyline = PolyUtil.decode(encodedPolyline);
+                // Add the polyline to the map
+                PolylineOptions polylineOptions = new PolylineOptions()
+                        .addAll(decodedPolyline)
+                        .color(Color.BLUE)
+                        .width(8f);
+                map.addPolyline(polylineOptions);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
 
