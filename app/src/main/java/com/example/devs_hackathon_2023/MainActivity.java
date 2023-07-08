@@ -53,9 +53,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        setupShopButton();
         BottomNavigationView navView = findViewById(R.id.bottom_navigation);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, map).commit();
+        navView.setSelectedItemId(R.id.map_button);
         navView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -126,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Define the animation
         float endRadius = 600;
-        Animator animator = ViewAnimationUtils.createCircularReveal(circleView, (int) startX, (int) startY, 30, 4000);
+        Animator animator = ViewAnimationUtils.createCircularReveal(circleView, (int) startX, (int) startY, 30, 2900);
         animator.setDuration(800);
 
         // Set an animation listener
@@ -152,6 +153,13 @@ public class MainActivity extends AppCompatActivity {
         // Start the pop-up animation
         ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(MainActivity.this, R.anim.blow_up, R.anim.blow_up);
         startActivity(intent, options.toBundle());
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ((ViewGroup) getWindow().getDecorView()).removeView(circleView);
 
     }
 }
