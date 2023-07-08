@@ -4,7 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+
+import com.example.devs_hackathon_2023.MainActivity;
 import com.example.devs_hackathon_2023.R;
 import com.example.devs_hackathon_2023.adaptors.EmoteAdapter;
 import com.example.devs_hackathon_2023.shop.emotes.Emote;
@@ -21,6 +27,7 @@ public class ShopActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
+        setupClickableButtons();
 
         // Initialize the RecyclerView
         recyclerView = findViewById(R.id.recyclerViewShop);
@@ -44,6 +51,18 @@ public class ShopActivity extends AppCompatActivity {
         // Set up the adapter
         emoteAdapter = new EmoteAdapter(emoteList, this);
         recyclerView.setAdapter(emoteAdapter);
+    }
+
+    private void setupClickableButtons(){
+        ImageView backButton = findViewById(R.id.shopBackButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // switch back to the main screen
+                Intent intent = new Intent(ShopActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 
