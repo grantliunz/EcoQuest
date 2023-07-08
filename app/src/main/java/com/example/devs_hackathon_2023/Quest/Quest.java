@@ -13,13 +13,16 @@ public class Quest {
     private boolean completed;
     private List<MainPlayer> scores;
 
-    public Quest(String title, String description,String id, int value, double time, boolean completed) {
+    private int imagePath;
+
+    public Quest(String title, String description,String id, int value, double time, boolean completed, int imagePath) {
         this.title = title;
         this.description = description;
         this.id = id;
         this.value = value;
         this.time = time;
         this.completed = completed;
+        this.imagePath = imagePath;
     }
 
     public String getTitle() {
@@ -76,5 +79,9 @@ public class Quest {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public int getImage() {
+        return imagePath;
     }
 }

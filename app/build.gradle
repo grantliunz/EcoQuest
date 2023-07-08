@@ -17,7 +17,7 @@ android {
 
         // Disable Data Binding
         dataBinding {
-            enabled = false
+            enabled = true
         }
         manifestPlaceholders = [
                 MAPS_API_KEY: MAPS_API_KEY
