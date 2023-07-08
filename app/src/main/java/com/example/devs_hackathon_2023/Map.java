@@ -1,10 +1,14 @@
 package com.example.devs_hackathon_2023;
 
+import static androidx.fragment.app.FragmentManager.TAG;
+
 import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,6 +23,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -59,13 +64,29 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.DirectionsApi;
+import com.google.maps.GeoApiContext;
+import com.google.maps.model.DirectionsResult;
+import com.google.maps.model.DirectionsRoute;
+import com.google.maps.model.TravelMode;
+import com.google.maps.DirectionsApiRequest;
+import com.google.maps.android.PolyUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
-
+import com.google.android.gms.maps.GoogleMap.CancelableCallback;
+import com.google.android.gms.maps.GoogleMap.OnCameraIdleListener;
+import com.google.android.gms.maps.GoogleMap.OnCameraMoveCanceledListener;
+import com.google.android.gms.maps.GoogleMap.OnCameraMoveListener;
+import com.google.android.gms.maps.GoogleMap.OnCameraMoveStartedListener;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 public class Map extends Fragment implements OnMapReadyCallback,
-        GoogleMap.OnMyLocationButtonClickListener {
+        GoogleMap.OnMyLocationButtonClickListener
+        {
 
     public class Coordinates {
         public double latitude;
@@ -96,8 +117,12 @@ public class Map extends Fragment implements OnMapReadyCallback,
     protected View circleView;
     private View boundedBox;
 
+    private Polyline polyline;
+    private boolean isCanceled = false;
+    private PolylineOptions currPolylineOptions;
 
-    private FusedLocationProviderClient fusedLocationClient;
+
+            private FusedLocationProviderClient fusedLocationClient;
     private LocationCallback locationCallback;
     private Location currentLocation;
     private Coordinates targetLocation;
@@ -186,6 +211,7 @@ public class Map extends Fragment implements OnMapReadyCallback,
                             map.addMarker(marker);
                         }
                         moveFriendsRandomly();
+                        updatePolyline();
                         if(targetLocation != null){
                             // check if current location is close to target location
 //                            Log.d("TAG", String.valueOf(areTwoCoordinatesClose(new Coordinates(currentLocation.getLatitude(), currentLocation.getLongitude()), targetLocation)));
@@ -251,6 +277,8 @@ public class Map extends Fragment implements OnMapReadyCallback,
         enableMyLocation();
         onMyLocationButtonClick();
         startLocationUpdates();
+
+
 
         // Move the camera to the user's location
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
@@ -340,6 +368,7 @@ public class Map extends Fragment implements OnMapReadyCallback,
                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 16f));
             }
         }
+
 
         return true;
     }
@@ -484,5 +513,110 @@ public class Map extends Fragment implements OnMapReadyCallback,
         ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(Map.this.requireContext(), 0, R.anim.blow_up);
         startActivity(intent, options.toBundle());
     }
+    private void drawRoute(LatLng origin, LatLng destination) throws PackageManager.NameNotFoundException {
+        Context appContext = requireActivity().getApplicationContext();
+        ApplicationInfo ai = appContext.getPackageManager().getApplicationInfo(appContext.getPackageName(), PackageManager.GET_META_DATA);
+        Bundle metaData = ai.metaData;
+        String apiKey= metaData.getString("com.google.android.geo.API_KEY");
+
+        GeoApiContext geoApiContext = new GeoApiContext.Builder()
+                .apiKey(apiKey)
+                .build();
+
+        DirectionsApiRequest request = DirectionsApi.newRequest(geoApiContext)
+                .mode(TravelMode.WALKING)
+                .origin(new com.google.maps.model.LatLng(origin.latitude, origin.longitude))
+                .destination(new com.google.maps.model.LatLng(destination.latitude, destination.longitude));
+
+        try {
+            DirectionsResult result = request.await();
+
+            // Process the directions result
+            if (result.routes != null && result.routes.length > 0) {
+                DirectionsRoute route = result.routes[0];
+                // Retrieve the encoded polyline representing the route
+                String encodedPolyline = route.overviewPolyline.getEncodedPath();
+                // Decode the polyline into a list of LatLng points
+                List<LatLng> decodedPolyline = PolyUtil.decode(encodedPolyline);
+                // Add the polyline to the map
+                PolylineOptions polylineOptions = new PolylineOptions()
+                        .addAll(decodedPolyline)
+                        .color(Color.BLUE)
+                        .width(8f);
+                polyline = map.addPolyline(polylineOptions);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+//    @Override
+//    public void onCameraIdle() {
+//        if (currentLocation == null)
+//            return;
+//        LatLng origin = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+//        //-36.8570, 174.7650
+//        LatLng destination = new LatLng(-36.8570, 174.7650);
+//        try {
+//            drawRoute(origin, destination);
+//        } catch (PackageManager.NameNotFoundException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+
+    @SuppressLint("RestrictedApi")
+    private void updatePolyline() {
+        Log.d(TAG, "updatePolyline: " + currentLocation);
+        if (currentLocation == null)
+            return;
+        LatLng origin = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        //-36.8570, 174.7650
+        LatLng destination = new LatLng(-36.8570, 174.7650);
+        try {
+            drawRoute(origin, destination);
+        } catch (PackageManager.NameNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+//    @Override
+//    public void onCameraMoveStarted(int reason) {
+//        if (!isCanceled) {
+//            map.clear();
+//        }
+//
+//        String reasonText = "UNKNOWN_REASON";
+//        currPolylineOptions = new PolylineOptions().width(5);
+//        switch (reason) {
+//            case OnCameraMoveStartedListener.REASON_GESTURE:
+//                currPolylineOptions.color(Color.BLUE);
+//                reasonText = "GESTURE";
+//                break;
+//            case OnCameraMoveStartedListener.REASON_API_ANIMATION:
+//                currPolylineOptions.color(Color.RED);
+//                reasonText = "API_ANIMATION";
+//                break;
+//            case OnCameraMoveStartedListener.REASON_DEVELOPER_ANIMATION:
+//                currPolylineOptions.color(Color.GREEN);
+//                reasonText = "DEVELOPER_ANIMATION";
+//                break;
+//        }
+//        Log.d(TAG, "onCameraMoveStarted(" + reasonText + ")");
+//        addCameraTargetToPath();
+//    }
+
+//    @Override
+//    public void onCameraMove() {
+//        // When the camera is moving, add its target to the current path we'll draw on the map.
+//        if (currPolylineOptions != null) {
+//            addCameraTargetToPath();
+//        }
+//        Log.d(TAG, "onCameraMove");
+//    }
+
+
+
+
+
 }
 
