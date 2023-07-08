@@ -1,10 +1,16 @@
 package com.example.devs_hackathon_2023.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Intent;
 import android.os.Bundle;
+
+import com.example.devs_hackathon_2023.MainActivity;
+import com.example.devs_hackathon_2023.Map;
 import com.example.devs_hackathon_2023.R;
 import com.example.devs_hackathon_2023.adaptors.EmoteAdapter;
 import com.example.devs_hackathon_2023.shop.emotes.Emote;
