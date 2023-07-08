@@ -3,7 +3,6 @@ package com.example.devs_hackathon_2023.adaptors;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +15,7 @@ import androidx.annotation.NonNull;
 import com.example.devs_hackathon_2023.R;
 import com.example.devs_hackathon_2023.User.Database;
 import com.example.devs_hackathon_2023.User.Player;
-
-import org.w3c.dom.Text;
+import com.example.devs_hackathon_2023.interfaces.FriendDeleteListener;
 
 import java.util.List;
 

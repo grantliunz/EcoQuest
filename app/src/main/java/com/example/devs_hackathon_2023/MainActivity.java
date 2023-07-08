@@ -1,54 +1,32 @@
 package com.example.devs_hackathon_2023;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
-import android.provider.ContactsContract;
-import android.util.Pair;
-import android.text.Layout;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
-import android.view.ViewAnimationUtils;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.view.View.OnClickListener;
 
 
 import com.example.devs_hackathon_2023.User.MainPlayer;
 import com.example.devs_hackathon_2023.User.Database;
-import com.example.devs_hackathon_2023.User.Player;
-import com.example.devs_hackathon_2023.activities.ShopActivity;
+import com.example.devs_hackathon_2023.fragments.Quests;
+import com.example.devs_hackathon_2023.fragments.Social;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.navigation.NavigationView;
 
 
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.content.ContextCompat;
 import androidx.annotation.NonNull;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.devs_hackathon_2023.databinding.ActivityMainBinding;
 
 import java.io.IOException;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 

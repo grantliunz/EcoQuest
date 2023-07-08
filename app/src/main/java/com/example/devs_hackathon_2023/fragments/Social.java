@@ -1,4 +1,4 @@
-package com.example.devs_hackathon_2023;
+package com.example.devs_hackathon_2023.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,9 +12,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.devs_hackathon_2023.R;
 import com.example.devs_hackathon_2023.User.Database;
 import com.example.devs_hackathon_2023.activities.LeaderboardActivity;
-import com.example.devs_hackathon_2023.adaptors.FriendDeleteListener;
+import com.example.devs_hackathon_2023.interfaces.FriendDeleteListener;
 import com.example.devs_hackathon_2023.adaptors.FriendsAdapter;
 
 

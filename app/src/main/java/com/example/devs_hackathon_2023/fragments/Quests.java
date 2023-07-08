@@ -1,4 +1,4 @@
-package com.example.devs_hackathon_2023;
+package com.example.devs_hackathon_2023.fragments;
 
 import android.os.Bundle;
 
@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.devs_hackathon_2023.Quest.Quest;
+import com.example.devs_hackathon_2023.R;
 import com.example.devs_hackathon_2023.adaptors.QuestAdapter;
 
 import java.util.ArrayList;
