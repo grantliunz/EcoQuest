@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     protected View circleView;
+    private View boundedBox;
 
 
     private Map map = new Map();
@@ -53,7 +54,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        boundedBox = findViewById(R.id.boundedBox);
+        boundedBox.bringToFront();
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setupShopButton();
@@ -155,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, ShopActivity.class);
         System.out.println("Starting ShopActivity");
         // Start the pop-up animation
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(MainActivity.this, R.anim.blow_up, R.anim.blow_up);
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(MainActivity.this, 0, R.anim.blow_up);
         startActivity(intent, options.toBundle());
 
     }
