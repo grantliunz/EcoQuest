@@ -1,12 +1,15 @@
 package com.example.devs_hackathon_2023;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.view.View.OnClickListener;
 
+import com.example.devs_hackathon_2023.activities.ShopActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -31,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        setupShopButton();
+
     }
 
     @Override
@@ -47,13 +52,14 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    RelativeLayout parentLayout = findViewById(R.id.shopLayout);
-    ImageView clickableImageView = findViewById(R.id.shopButton);
-//
-//    clickableImageView.setOnClickListener(new View.OnClickListener() {
-//        @Override
-//        public void onClick(View v) {
-//            Snackbar.make(parentLayout, "You clicked the shop button", Snackbar.LENGTH_LONG).show();
-//        }
-//    });
+    private void setupShopButton() {
+        ImageView clickableImageView = findViewById(R.id.shopButton);
+        clickableImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ShopActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
 }
