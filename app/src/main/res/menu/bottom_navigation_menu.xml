@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/task_button"
+        android:enabled="true"
+        android:icon="@drawable/tasks"
+        android:title="Tasks"/>
+    <item
+        android:id="@+id/map_button"
+        android:enabled="true"
+        android:icon="@drawable/map"
+        android:title="Map"/>
+    <item
+        android:id="@+id/social_button"
+        android:enabled="true"
+        android:icon="@drawable/social"
+        android:title="Social"/>
+</menu>
