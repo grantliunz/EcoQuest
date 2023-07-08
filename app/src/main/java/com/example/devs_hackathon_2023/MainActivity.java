@@ -43,8 +43,9 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
-    protected View circleView;
+
     private View boundedBox;
+
 
 
     private Map map = new Map();
@@ -57,9 +58,9 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        boundedBox = findViewById(R.id.boundedBox);
-        boundedBox.bringToFront();
-        setupShopButton();
+
+
+
         BottomNavigationView navView = findViewById(R.id.bottom_navigation);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, map).commit();
         navView.setSelectedItemId(R.id.map_button);
@@ -90,8 +91,6 @@ public class MainActivity extends AppCompatActivity {
         container.removeAllViews();
         container.addView(view);
 
-        setupShopButton();
-
     }
 
     @Override
@@ -108,68 +107,11 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    private void setupShopButton() {
-        ImageView clickableImageView = findViewById(R.id.shopButton);
-        clickableImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Handle the click event
-                animateAndSwitch(v);
-            }
-        });
-    }
-    private void animateAndSwitch(View view) {
-        // Get the click position
-        float startX = 1285;
-        float startY = 330;
-        System.out.println("startX: " + startX);
-        System.out.println("startY: " + startY);
 
-
-        circleView = new View(MainActivity.this);
-
-        // Create a circular view to animate
-        circleView.setLayoutParams(new ViewGroup.LayoutParams(3000, 3000));
-        circleView.setBackground(ContextCompat.getDrawable(MainActivity.this, R.drawable.circle_shape));
-        circleView.setX(0);
-        circleView.setY(view.getHeight());
-        ((ViewGroup) getWindow().getDecorView()).addView(circleView);
-
-        // Define the animation
-        float endRadius = 600;
-        Animator animator = ViewAnimationUtils.createCircularReveal(circleView, (int) startX, (int) startY, 30, 2900);
-        animator.setDuration(800);
-
-        // Set an animation listener
-        animator.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-//                super.onAnimationEnd(animation);
-                // Remove the circular view
-
-                // Start the pop-up animation
-                startPopUpAnimation();
-            }
-        });
-
-        // Start the animation
-        animator.start();
-
-    }
-
-    private void startPopUpAnimation() {
-        Intent intent = new Intent(MainActivity.this, ShopActivity.class);
-        System.out.println("Starting ShopActivity");
-        // Start the pop-up animation
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(MainActivity.this, 0, R.anim.blow_up);
-        startActivity(intent, options.toBundle());
-
-    }
 
     @Override
     protected void onResume() {
         super.onResume();
-        ((ViewGroup) getWindow().getDecorView()).removeView(circleView);
 
     }
 }
