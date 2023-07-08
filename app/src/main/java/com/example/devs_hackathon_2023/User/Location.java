@@ -1,15 +1,15 @@
 package com.example.devs_hackathon_2023.User;
 
 public class Location {
-    private int latitude;
-    private int longitude;
+    private double latitude;
+    private double longitude;
 
-    public Location(int latitude, int longitude) {
+    public Location(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
-    public int getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
@@ -17,7 +17,7 @@ public class Location {
         this.latitude = latitude;
     }
 
-    public int getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 

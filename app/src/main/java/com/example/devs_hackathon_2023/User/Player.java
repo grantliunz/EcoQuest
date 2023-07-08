@@ -4,18 +4,25 @@ import com.example.devs_hackathon_2023.Quest.Quest;
 
 import java.util.List;
 
-public class Player extends MainPlayer{
+public class Player{
+    private String name;
+    private String id;
+    private int score;
+    private Location location;
+    private List<Quest> quests;
     private int steps;
-    private int distance;
     private int money;
-
     private List<MainPlayer> friends;
 
-    public Player(String name, String id, int score, Location location, List<Quest> quests, int steps, int distance, int money) {
-        super(name, id, score, location, quests);
+    public Player(String name, String id, int score, Location location, List<Quest> quests, int steps, int money, List<MainPlayer> friends) {
+        this.name = name;
+        this.id = id;
+        this.score = score;
+        this.location = location;
+        this.quests = quests;
         this.steps = steps;
-        this.distance = distance;
         this.money = money;
+        this.friends = friends;
     }
 
     public int getSteps() {
@@ -24,14 +31,6 @@ public class Player extends MainPlayer{
 
     public void setSteps(int steps) {
         this.steps = steps;
-    }
-
-    public int getDistance() {
-        return distance;
-    }
-
-    public void setDistance(int distance) {
-        this.distance = distance;
     }
 
     public int getMoney() {
