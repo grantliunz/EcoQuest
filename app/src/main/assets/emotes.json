@@ -1,0 +1,64 @@
+{
+  "emotes": [
+    {
+      "title": "Happy Dance",
+      "description": "Express your joy with a lively dance.",
+      "cost": 50,
+      "imagePath": "emotes/happy_dance.png"
+    },
+    {
+      "title": "Cool Wave",
+      "description": "Send a cool wave to greet your friends.",
+      "cost": 30,
+      "imagePath": "emotes/cool_wave.png"
+    },
+    {
+      "title": "Cheerful Jump",
+      "description": "Jump for joy and spread happiness.",
+      "cost": 40,
+      "imagePath": "emotes/cheerful_jump.png"
+    },
+    {
+      "title": "Silly Dance",
+      "description": "Get silly and dance in a funny way.",
+      "cost": 20,
+      "imagePath": "emotes/silly_dance.png"
+    },
+    {
+      "title": "Thumbs Up",
+      "description": "Show your approval and give a thumbs up.",
+      "cost": 10,
+      "imagePath": "emotes/thumbs_up.png"
+    },
+    {
+      "title": "Peace Sign",
+      "description": "Spread peace and harmony with a peace sign.",
+      "cost": 15,
+      "imagePath": "emotes/peace_sign.png"
+    },
+    {
+      "title": "Excited Clap",
+      "description": "Express your excitement with a round of applause.",
+      "cost": 25,
+      "imagePath": "emotes/excited_clap.png"
+    },
+    {
+      "title": "Dab",
+      "description": "Strike a cool pose with a dab.",
+      "cost": 20,
+      "imagePath": "emotes/dab.png"
+    },
+    {
+      "title": "Cute Wink",
+      "description": "Send a cute wink to someone special.",
+      "cost": 15,
+      "imagePath": "emotes/cute_wink.png"
+    },
+    {
+      "title": "Party Popper",
+      "description": "Celebrate and throw confetti with a party popper.",
+      "cost": 30,
+      "imagePath": "emotes/party_popper.png"
+    }
+  ]
+}

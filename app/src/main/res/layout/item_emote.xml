@@ -1,0 +1,59 @@
+<!-- item_emote.xml -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="140dp"
+    android:layout_height="220dp"
+    android:padding="14dp"
+    android:elevation="4dp"
+    android:background="@drawable/rounded_shape_with_padding">
+
+    <ImageView
+        android:id="@+id/emoteImageView"
+        android:layout_marginTop="10dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/default_emote" />
+
+    <TextView
+        android:id="@+id/emoteTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/emoteImageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="Emote Title"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+<!--    <TextView-->
+<!--        android:id="@+id/emoteDescriptionTextView"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@+id/emoteTitleTextView"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:text="Emote Description"-->
+<!--        android:textSize="12sp" />-->
+
+    <TextView
+        android:id="@+id/emoteCostTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/emoteTitleTextView"
+        android:layout_centerHorizontal="true"
+        android:text="Emote Cost"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/emoteBuyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="38dp"
+        android:layout_below="@+id/emoteCostTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:text="BUY" />
+
+</RelativeLayout>
