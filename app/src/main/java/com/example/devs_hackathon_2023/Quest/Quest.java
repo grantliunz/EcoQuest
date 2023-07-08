@@ -10,7 +10,9 @@ public class Quest {
     private String id;
     private int value;
     private double time;
+    private int noCompleted;
     private boolean completed;
+    private int noTasks;
     private List<MainPlayer> scores;
 
     private int imagePath;
@@ -21,8 +23,21 @@ public class Quest {
         this.id = id;
         this.value = value;
         this.time = time;
-        this.completed = completed;
+        this.noCompleted = 0;
+        this.noTasks = 1;
         this.imagePath = imagePath;
+        this.completed = false;
+    }
+    public Quest(String title, String description,String id, int value, double time, boolean completed, int imagePath, int noTasks) {
+        this.title = title;
+        this.description = description;
+        this.id = id;
+        this.value = value;
+        this.time = time;
+        this.noCompleted = 0;
+        this.noTasks = noTasks;
+        this.imagePath = imagePath;
+        this.completed = false;
     }
 
     public String getTitle() {
@@ -43,6 +58,19 @@ public class Quest {
 
     public int getValue() {
         return value;
+    }
+    public void completeOneTask(){
+        noCompleted++;
+    }
+    public float getProgress(){
+        return (float)noCompleted / (float)noTasks;
+    }
+    public int getNoCompleted(){
+        return noCompleted;
+    }
+
+    public int getNoTasks(){
+        return noTasks;
     }
 
     public void setValue(int value) {
