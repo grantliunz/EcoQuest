@@ -122,4 +122,21 @@
         </RelativeLayout>
     </RelativeLayout>
 
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/myLocationViewBackdrop"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="365dp"
+        android:elevation="4dp"
+        android:alpha="0.6"
+        android:background="@drawable/rounded_shape_with_padding">
+        <ImageView
+            android:id="@+id/myLocationView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/my_location"
+            android:clickable="true"/>
+    </RelativeLayout>
 </FrameLayout>

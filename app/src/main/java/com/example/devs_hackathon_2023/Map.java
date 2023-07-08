@@ -6,20 +6,30 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.RectF;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,15 +52,20 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 
 public class Map extends Fragment implements OnMapReadyCallback,
-        GoogleMap.OnMyLocationButtonClickListener,
-        GoogleMap.OnMyLocationClickListener {
+        GoogleMap.OnMyLocationButtonClickListener {
 
     public class Coordinates {
         public double latitude;
@@ -59,6 +74,18 @@ public class Map extends Fragment implements OnMapReadyCallback,
         Coordinates(double latitude, double longitude){
             this.latitude = latitude;
             this.longitude = longitude;
+        }
+    }
+
+    public class Friend {
+        public String name;
+        public Coordinates location;
+        public int icon;
+
+        Friend(String name, Coordinates coordinate, int icon){
+            this.name = name;
+            this.location = coordinate;
+            this.icon = icon;
         }
     }
 
@@ -74,6 +101,8 @@ public class Map extends Fragment implements OnMapReadyCallback,
     private LocationCallback locationCallback;
     private Location currentLocation;
     private Coordinates targetLocation;
+    private ArrayList<Friend> friends; // temp type
+
 
     public void setTargetLocation(double latitude, double longitude){
         this.targetLocation = new Coordinates(latitude, longitude);
@@ -92,7 +121,37 @@ public class Map extends Fragment implements OnMapReadyCallback,
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        ImageView myLocation = view.findViewById(R.id.myLocationView);
+        myLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Call your function here
+                onMyLocationButtonClick();
+            }
+        });
+        myLocation.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                RelativeLayout myLocationBackdrop = view.findViewById(R.id.myLocationViewBackdrop);
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // Apply a darker color filter when the image is touched
+                        myLocationBackdrop.setAlpha(0.9f); // Adjust the alpha (transparency) value as needed
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        // Remove the color filter when the touch is released or canceled
+                        myLocationBackdrop.setAlpha(0.6f);
+                        break;
+                }
+                return false;
+            }
+        });
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
+        friends = new ArrayList<Friend>();
+        friends.add(new Friend("Dhruv", new Coordinates(-36.8509, 174.7719), R.drawable.dhruv_icon));
+        friends.add(new Friend("Aaron", new Coordinates( -36.8513, 174.7711), R.drawable.aaron_icon));
         locationCallback = new LocationCallback() {
             // callback whenever location updates
             @Override
@@ -102,6 +161,31 @@ public class Map extends Fragment implements OnMapReadyCallback,
                     if (location != null) {
                         currentLocation = location;
 //                        Log.d("TAG", "loc: lat " + currentLocation.getLatitude() + ", long " + currentLocation.getLongitude());
+                        ArrayList<MarkerOptions> markers = new ArrayList<>();
+                        // update user avatar
+                        LatLng myMarkerLocation = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                        BitmapDescriptor myIcon = getAvatarIcon(R.drawable.connor_icon, 150, true);
+                        MarkerOptions myMarkerOptions = new MarkerOptions()
+                                .position(myMarkerLocation)
+                                .title("Connor")
+                                .icon(myIcon).zIndex(1);
+                        markers.add(myMarkerOptions);
+                        // update friends avatars
+                        for (Friend friend : friends){
+                            // add a marker
+                            LatLng markerLocation = new LatLng(friend.location.latitude, friend.location.longitude);
+                            BitmapDescriptor icon = getAvatarIcon(friend.icon, 150, false);
+                            MarkerOptions markerOptions = new MarkerOptions()
+                                    .position(markerLocation)
+                                    .title(friend.name)
+                                    .icon(icon);
+                           markers.add(markerOptions);
+                        }
+                        map.clear();
+                        for (MarkerOptions marker : markers){
+                            map.addMarker(marker);
+                        }
+                        moveFriendsRandomly();
                         if(targetLocation != null){
                             // check if current location is close to target location
 //                            Log.d("TAG", String.valueOf(areTwoCoordinatesClose(new Coordinates(currentLocation.getLatitude(), currentLocation.getLongitude()), targetLocation)));
@@ -117,14 +201,30 @@ public class Map extends Fragment implements OnMapReadyCallback,
         boundedBox = getView().findViewById(R.id.boundedBox);
         boundedBox.bringToFront();
         setupShopButton();
+
         setUpProfileButton();
 
         loadProfile();
 
     }
 
+    public void moveFriendsRandomly(){
+        Random r = new Random();
+        for (Friend friend : friends){
+            double dir = r.nextDouble();
+            if (dir < 0.25){
+                friend.location.latitude += 0.0001;
+            } else if (dir < 0.5){
+                friend.location.longitude += 0.0001;
+            } else if (dir < 0.75){
+                friend.location.latitude -= 0.0001;
+            } else {
+                friend.location.longitude -= 0.0001;
+            }
+        }
+    }
     private void startLocationUpdates() {
-        LocationRequest locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY,5000).setMinUpdateIntervalMillis(2000).setMaxUpdateDelayMillis(8000).build();
+        LocationRequest locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY,1000).setMinUpdateIntervalMillis(500).setMaxUpdateDelayMillis(1500).build();
 
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -148,7 +248,6 @@ public class Map extends Fragment implements OnMapReadyCallback,
         );
         map = googleMap;
         map.setOnMyLocationButtonClickListener(this);
-        map.setOnMyLocationClickListener(this);
         enableMyLocation();
         onMyLocationButtonClick();
         startLocationUpdates();
@@ -158,7 +257,7 @@ public class Map extends Fragment implements OnMapReadyCallback,
                 == PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            map.setMyLocationEnabled(true);
+//            map.setMyLocationEnabled(true);
             LocationManager locationManager = (LocationManager) requireContext().getSystemService(Context.LOCATION_SERVICE);
             Criteria criteria = new Criteria();
             Location lastKnownLocation = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
@@ -169,6 +268,48 @@ public class Map extends Fragment implements OnMapReadyCallback,
         }
     }
 
+    public BitmapDescriptor getAvatarIcon(int resourceId, int size, boolean hasBorder){
+
+        BitmapDescriptor customMarkerIcon = BitmapDescriptorFactory.fromResource(resourceId);
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 2; // Adjust the sample size as needed for resizing
+
+        Bitmap markerBitmap = BitmapFactory.decodeResource(getResources(), resourceId, options);
+        Bitmap resizedMarkerBitmap = Bitmap.createScaledBitmap(markerBitmap, size, size, false);
+
+
+        // Create a circular mask
+        Bitmap roundedMarkerBitmap = Bitmap.createBitmap(resizedMarkerBitmap.getWidth(), resizedMarkerBitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(roundedMarkerBitmap);
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        RectF rect = new RectF(0, 0, size, size);
+        canvas.drawOval(rect, paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(resizedMarkerBitmap, null, rect, paint);
+
+        if (hasBorder){
+            // border options
+            int borderWidth = 8; // Set the desired width of the border in pixels
+            int borderColor = Color.rgb(210, 101, 15); // Set the desired color of the border
+            // Draw a border around the marker icon
+            Paint borderPaint = new Paint();
+            borderPaint.setAntiAlias(true); // Apply anti-aliasing to the border
+            borderPaint.setStyle(Paint.Style.STROKE);
+            borderPaint.setStrokeWidth(borderWidth);
+            borderPaint.setColor(borderColor);
+            borderPaint.setDither(true); // Enable dithering for better color gradient
+
+        // Adjust the position of the border based on the border width
+            float borderOffset = borderWidth / 2f;
+            RectF borderRect = new RectF(rect.left + borderOffset, rect.top + borderOffset, rect.right - borderOffset, rect.bottom - borderOffset);
+            canvas.drawOval(borderRect, borderPaint);
+        }
+
+        return BitmapDescriptorFactory.fromBitmap(roundedMarkerBitmap);
+    }
+
     /**
      * Enables the My Location layer if the fine location permission has been granted.
      */
@@ -177,7 +318,7 @@ public class Map extends Fragment implements OnMapReadyCallback,
                 == PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            map.setMyLocationEnabled(true);
+//            map.setMyLocationEnabled(true);
             return;
         }
 
@@ -201,26 +342,6 @@ public class Map extends Fragment implements OnMapReadyCallback,
         }
 
         return true;
-    }
-
-    @Override
-    public void onMyLocationClick(@NonNull Location location) {
-        Toast.makeText(requireContext(), "Current location:\n" + location, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-            return;
-        }
-
-        if (PermissionUtils.isPermissionGranted(permissions, grantResults, Manifest.permission.ACCESS_FINE_LOCATION)
-                || PermissionUtils.isPermissionGranted(permissions, grantResults, Manifest.permission.ACCESS_COARSE_LOCATION)) {
-            enableMyLocation();
-        } else {
-            permissionDenied = true;
-        }
     }
 
     @Override

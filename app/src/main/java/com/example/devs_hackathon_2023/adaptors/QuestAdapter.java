@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.devs_hackathon_2023.Quest.Quest;
 import com.example.devs_hackathon_2023.R;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 import java.util.List;
 public class QuestAdapter extends RecyclerView.Adapter<QuestAdapter.QuestViewHolder> {
@@ -28,13 +29,26 @@ public class QuestAdapter extends RecyclerView.Adapter<QuestAdapter.QuestViewHol
         return new QuestViewHolder(view);
     }
 
+    private int findPercentageAsInt(int a, int b){
+        return (int)((float)a * 100) / b;
+    }
+
     @Override
     public void onBindViewHolder(@NonNull QuestViewHolder holder, int position) {
+
         Quest quest = questList.get(position);
-        holder.questImageView.setImageResource(quest.getImage());
+        //quest.completeOneTask();  // set all tasks to 1 completion for display purposes
+        //holder.questImageView.setImageResource(quest.getImage());
+        if (quest.isCompleted()){
+            holder.questImageView.setImageResource(R.drawable.quest2);
+        } else {
+            holder.questImageView.setImageResource(R.drawable.quest1);
+        }
         holder.questTitleTextView.setText(quest.getTitle());
         holder.questDescriptionTextView.setText(quest.getDescription());
-        holder.questRewardTextView.setText("Reward: " + String.valueOf(quest.getValue()));
+        holder.questRewardTextView.setText("Reward: " + String.valueOf(quest.getValue()) + " xp");
+        holder.questProgressText.setText("Progress: "+ quest.getNoCompleted() + "/" + quest.getNoTasks());
+        holder.questProgressBar.setProgress(findPercentageAsInt(quest.getNoCompleted(), quest.getNoTasks()));
     }
 
     @Override
@@ -46,8 +60,11 @@ public class QuestAdapter extends RecyclerView.Adapter<QuestAdapter.QuestViewHol
         TextView questTitleTextView;
         TextView questDescriptionTextView;
         TextView questRewardTextView;
+        TextView questProgressText;
 
         ImageView questImageView;
+
+        LinearProgressIndicator questProgressBar;
 
         public QuestViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -55,6 +72,8 @@ public class QuestAdapter extends RecyclerView.Adapter<QuestAdapter.QuestViewHol
             questImageView = itemView.findViewById(R.id.questImageView);
             questDescriptionTextView = itemView.findViewById(R.id.questDescriptionTextView);
             questRewardTextView = itemView.findViewById(R.id.questRewardTextView);
+            questProgressText = itemView.findViewById(R.id.questProgressText);
+            questProgressBar = itemView.findViewById(R.id.questProgressBar);
         }
     }
 }
