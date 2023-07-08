@@ -44,7 +44,9 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.devs_hackathon_2023.R;
+import com.example.devs_hackathon_2023.User.Database;
 import com.example.devs_hackathon_2023.User.MainPlayer;
+import com.example.devs_hackathon_2023.User.Player;
 import com.example.devs_hackathon_2023.activities.ProfileActivity;
 import com.example.devs_hackathon_2023.activities.ShopActivity;
 import com.example.devs_hackathon_2023.databinding.FragmentMapBinding;
@@ -92,18 +94,6 @@ public class Map extends Fragment implements OnMapReadyCallback,
         }
     }
 
-    public class Friend {
-        public String name;
-        public Coordinates location;
-        public int icon;
-
-        Friend(String name, Coordinates coordinate, int icon){
-            this.name = name;
-            this.location = coordinate;
-            this.icon = icon;
-        }
-    }
-
     private FragmentMapBinding binding;
     private GoogleMap map;
     private boolean permissionDenied = false;
@@ -120,7 +110,6 @@ public class Map extends Fragment implements OnMapReadyCallback,
     private LocationCallback locationCallback;
     private Location currentLocation;
     private Coordinates targetLocation;
-    private ArrayList<Friend> friends; // temp type
 
 
     public void setTargetLocation(double latitude, double longitude){
@@ -168,9 +157,6 @@ public class Map extends Fragment implements OnMapReadyCallback,
         });
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
-        friends = new ArrayList<Friend>();
-        friends.add(new Friend("Dhruv", new Coordinates(-36.8509, 174.7719), R.drawable.dhruv_icon));
-        friends.add(new Friend("Aaron", new Coordinates( -36.8513, 174.7711), R.drawable.aaron_icon));
         locationCallback = new LocationCallback() {
             // callback whenever location updates
             @Override
@@ -190,13 +176,13 @@ public class Map extends Fragment implements OnMapReadyCallback,
                                 .icon(myIcon).zIndex(1);
                         markers.add(myMarkerOptions);
                         // update friends avatars
-                        for (Friend friend : friends){
+                        for (Player friend : Database.getPlayers().subList(0,5)){
                             // add a marker
-                            LatLng markerLocation = new LatLng(friend.location.latitude, friend.location.longitude);
-                            BitmapDescriptor icon = getAvatarIcon(friend.icon, 150, false);
+                            LatLng markerLocation = new LatLng(friend.getLocation().getLatitude(), friend.getLocation().getLongitude());
+                            BitmapDescriptor icon = getAvatarIcon(R.drawable.pfp, 150, false);
                             MarkerOptions markerOptions = new MarkerOptions()
                                     .position(markerLocation)
-                                    .title(friend.name)
+                                    .title(friend.getName())
                                     .icon(icon);
                            markers.add(markerOptions);
                         }
@@ -204,7 +190,6 @@ public class Map extends Fragment implements OnMapReadyCallback,
                         for (MarkerOptions marker : markers){
                             map.addMarker(marker);
                         }
-                        moveFriendsRandomly();
                         updatePolyline();
                         if(targetLocation != null){
                             // check if current location is close to target location
@@ -228,21 +213,6 @@ public class Map extends Fragment implements OnMapReadyCallback,
 
     }
 
-    public void moveFriendsRandomly(){
-        Random r = new Random();
-        for (Friend friend : friends){
-            double dir = r.nextDouble();
-            if (dir < 0.25){
-                friend.location.latitude += 0.0001;
-            } else if (dir < 0.5){
-                friend.location.longitude += 0.0001;
-            } else if (dir < 0.75){
-                friend.location.latitude -= 0.0001;
-            } else {
-                friend.location.longitude -= 0.0001;
-            }
-        }
-    }
     private void startLocationUpdates() {
         LocationRequest locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY,1000).setMinUpdateIntervalMillis(500).setMaxUpdateDelayMillis(1500).build();
 

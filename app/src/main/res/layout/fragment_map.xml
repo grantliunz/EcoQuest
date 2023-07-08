@@ -126,11 +126,12 @@
         android:id="@+id/myLocationViewBackdrop"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="365dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="right"
+        android:layout_marginEnd="10dp"
         android:elevation="4dp"
         android:alpha="0.6"
-        android:background="@drawable/rounded_shape_with_padding">
+        android:background="@drawable/rounded_shape_with_padding_white">
         <ImageView
             android:id="@+id/myLocationView"
             android:layout_width="100dp"
