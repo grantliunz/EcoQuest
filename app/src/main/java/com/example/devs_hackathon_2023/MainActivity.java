@@ -14,11 +14,14 @@ import android.view.Menu;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.view.View.OnClickListener;
 
 import com.example.devs_hackathon_2023.activities.ShopActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -42,6 +45,10 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     protected View circleView;
 
+
+    private Map map = new Map();
+    private Quests quests = new Quests();
+    private Social social = new Social();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
