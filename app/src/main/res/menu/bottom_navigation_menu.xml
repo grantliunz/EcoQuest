@@ -8,6 +8,7 @@
         android:id="@+id/map_button"
         android:enabled="true"
         android:icon="@drawable/map"
+        android:checked="true"
         android:title="Map"/>
     <item
         android:id="@+id/social_button"
