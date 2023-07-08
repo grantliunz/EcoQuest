@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.os.Bundle;
+
 import android.util.Pair;
 import android.text.Layout;
 import android.view.LayoutInflater;
@@ -13,16 +14,14 @@ import android.view.Menu;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.view.View.OnClickListener;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 import com.example.devs_hackathon_2023.activities.ShopActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+
 
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
@@ -44,13 +43,10 @@ public class MainActivity extends AppCompatActivity {
     protected View circleView;
 
 
-    private Map map = new Map();
-    private Quests quests = new Quests();
-    private Social social = new Social();
-    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setupShopButton();
@@ -80,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         FrameLayout container = findViewById(R.id.fragment_container);
         container.removeAllViews();
         container.addView(view);
+
         setupShopButton();
 
     }
