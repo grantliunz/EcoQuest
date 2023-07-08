@@ -7,7 +7,6 @@ import java.util.List;
 public class Quest {
     private String title;
     private String description;
-
     private String id;
     private int value;
     private int time;
