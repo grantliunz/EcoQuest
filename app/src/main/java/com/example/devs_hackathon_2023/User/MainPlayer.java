@@ -1,5 +1,7 @@
 package com.example.devs_hackathon_2023.User;
 
+import android.media.Image;
+
 import com.example.devs_hackathon_2023.Quest.Quest;
 import com.example.devs_hackathon_2023.shop.emotes.Emote;
 
@@ -22,6 +24,8 @@ public abstract class MainPlayer {
 
     private static int money;
 
+    private static int profilePicture;
+
     private static List<Player> friends;
 
 
@@ -37,18 +41,25 @@ public abstract class MainPlayer {
     }
 
 
-    public String getName() {
+    public static String getName() {
         return name;
     }
 
-    public void setName(String Mname) {
+    public static void setName(String Mname) {
         name = Mname;
     }
 
-    public String getId() {
+    public static String getId() {
         return id;
     }
 
+    public static int getProfilePicture() {
+        return profilePicture;
+    }
+
+    public static void setProfilePicture(int resourceID) {
+        profilePicture = resourceID;
+    }
     public static int getScore() {
         return score;
     }
@@ -59,23 +70,23 @@ public abstract class MainPlayer {
 
     public static int getLevel(){return score / XP_PER_LEVEL; }
 
-    public Location getLocation() {
+    public static Location getLocation() {
         return location;
     }
 
-    public void setLocation(Location Mlocation) {
+    public static void setLocation(Location Mlocation) {
         location = Mlocation;
     }
 
-    public List<Quest> getQuests() {
+    public static List<Quest> getQuests() {
         return quests;
     }
 
-    public void setQuests(List<Quest> Mquests) {
+    public static void setQuests(List<Quest> Mquests) {
         quests = Mquests;
     }
 
-    public void addQuest(Quest quest) {
+    public static void addQuest(Quest quest) {
         quests.add(quest);
     }
 
@@ -83,11 +94,11 @@ public abstract class MainPlayer {
         return friends;
     }
 
-    public void addFriend(Player friend) {
+    public static void addFriend(Player friend) {
         friends.add(friend);
     }
 
-    public void completeQuest(int questId){
+    public static void completeQuest(int questId){
         Quest quest = quests.stream().filter(q -> q.getId().equals(questId)).findFirst().get();
         quest.setCompleted(true);
         score += quest.getValue();

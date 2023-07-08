@@ -3,6 +3,9 @@ package com.example.devs_hackathon_2023;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import android.util.Pair;
@@ -19,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.view.View.OnClickListener;
 
+import com.example.devs_hackathon_2023.User.MainPlayer;
 import com.example.devs_hackathon_2023.activities.ShopActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -80,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
+        setUpMainPlayer();
         // set a target location
         map.setTargetLocation(-36.8509, 174.7719);
     }
@@ -90,6 +94,14 @@ public class MainActivity extends AppCompatActivity {
         FrameLayout container = findViewById(R.id.fragment_container);
         container.removeAllViews();
         container.addView(view);
+
+    }
+
+    private void setUpMainPlayer() {
+
+        MainPlayer.setProfilePicture(R.drawable.aaron_icon);
+        MainPlayer.setName("John Doe");
+        MainPlayer.setScore(30);
 
     }
 
