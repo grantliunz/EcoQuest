@@ -88,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
         MainPlayer.setProfilePicture(R.drawable.aaron_icon);
         MainPlayer.setName("John Doe");
         MainPlayer.setScore(30);
+        MainPlayer.setupQuest();
+        MainPlayer.setupScore();
 
     }
 

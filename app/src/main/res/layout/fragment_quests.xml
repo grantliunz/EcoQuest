@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_margin="50px"
-            android:text="Quests"
+            android:text="Tasks"
             android:textColor="#000000"
             android:textSize="26dp" />
 
