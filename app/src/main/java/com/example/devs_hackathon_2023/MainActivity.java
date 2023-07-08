@@ -10,6 +10,8 @@ import android.widget.FrameLayout;
 
 import com.example.devs_hackathon_2023.User.MainPlayer;
 import com.example.devs_hackathon_2023.User.Database;
+import com.example.devs_hackathon_2023.databinding.ActivityMainBinding;
+import com.example.devs_hackathon_2023.fragments.Map;
 import com.example.devs_hackathon_2023.fragments.Quests;
 import com.example.devs_hackathon_2023.fragments.Social;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -18,13 +20,8 @@ import com.google.android.material.navigation.NavigationBarView;
 
 import androidx.annotation.NonNull;
 
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.devs_hackathon_2023.databinding.ActivityMainBinding;
 
 import java.io.IOException;
 

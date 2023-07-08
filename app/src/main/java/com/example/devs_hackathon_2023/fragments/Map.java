@@ -1,4 +1,4 @@
-package com.example.devs_hackathon_2023;
+package com.example.devs_hackathon_2023.fragments;
 
 import static androidx.fragment.app.FragmentManager.TAG;
 
@@ -33,7 +33,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
@@ -44,6 +43,7 @@ import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.devs_hackathon_2023.R;
 import com.example.devs_hackathon_2023.User.MainPlayer;
 import com.example.devs_hackathon_2023.activities.ProfileActivity;
 import com.example.devs_hackathon_2023.activities.ShopActivity;
@@ -77,12 +77,6 @@ import com.google.maps.android.PolyUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import com.google.android.gms.maps.GoogleMap.CancelableCallback;
-import com.google.android.gms.maps.GoogleMap.OnCameraIdleListener;
-import com.google.android.gms.maps.GoogleMap.OnCameraMoveCanceledListener;
-import com.google.android.gms.maps.GoogleMap.OnCameraMoveListener;
-import com.google.android.gms.maps.GoogleMap.OnCameraMoveStartedListener;
-import com.google.android.gms.maps.model.PolylineOptions;
 
 public class Map extends Fragment implements OnMapReadyCallback,
         GoogleMap.OnMyLocationButtonClickListener
