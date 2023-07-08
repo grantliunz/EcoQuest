@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.provider.ContactsContract;
 import android.util.Pair;
 import android.text.Layout;
 import android.view.LayoutInflater;
@@ -19,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.view.View.OnClickListener;
 
+import com.example.devs_hackathon_2023.User.Database;
+import com.example.devs_hackathon_2023.User.Player;
 import com.example.devs_hackathon_2023.activities.ShopActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -38,6 +41,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.devs_hackathon_2023.databinding.ActivityMainBinding;
+
+import java.io.IOException;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,7 +65,11 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
+        try {
+            Database.setupDatabase(getAssets().open("players.json"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         BottomNavigationView navView = findViewById(R.id.bottom_navigation);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, map).commit();

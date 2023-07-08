@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Database {
 
@@ -27,7 +28,8 @@ public abstract class Database {
                     String id = jsonArray.getJSONObject(i).getString("id");
                     int steps = jsonArray.getJSONObject(i).getInt("steps");
                     Location location = new Location(jsonArray.getJSONObject(i).getJSONObject("location").getDouble("latitude"), jsonArray.getJSONObject(i).getJSONObject("location").getDouble("longitude"));
-                    JSONArray jsonQuests = new JSONArray(jsonArray.getJSONObject(i).getJSONArray("quests"));
+//                    JSONArray jsonQuests = new JSONArray(jsonArray.getJSONObject(i).getJSONArray("quests"));
+                    JSONArray jsonQuests = jsonArray.getJSONObject(i).getJSONArray("quests");
                     ArrayList<Quest> quests = new ArrayList<Quest>();
                     for (int j = 0; j < jsonQuests.length(); j++) {
                         String questName = jsonQuests.getJSONObject(j).getString("name");
@@ -45,4 +47,7 @@ public abstract class Database {
             }
         }
 
+        public static List<Player> getPlayers() {
+            return players;
+        }
 }
