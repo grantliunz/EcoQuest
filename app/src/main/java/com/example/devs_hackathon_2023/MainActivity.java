@@ -54,10 +54,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        boundedBox = findViewById(R.id.boundedBox);
-        boundedBox.bringToFront();
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        boundedBox = findViewById(R.id.boundedBox);
+        boundedBox.bringToFront();
         setupShopButton();
         BottomNavigationView navView = findViewById(R.id.bottom_navigation);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, map).commit();
