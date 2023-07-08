@@ -10,18 +10,17 @@ public class Quest {
 
     private String id;
     private int value;
-    private int time;
+    private double time;
     private boolean completed;
     private List<MainPlayer> scores;
 
-    public Quest(String title, String description,String id, int value, int time, boolean completed, List<MainPlayer> scores) {
+    public Quest(String title, String description,String id, int value, double time, boolean completed) {
         this.title = title;
         this.description = description;
         this.id = id;
         this.value = value;
         this.time = time;
         this.completed = completed;
-        this.scores = scores;
     }
 
     public String getTitle() {
@@ -48,11 +47,11 @@ public class Quest {
         this.value = value;
     }
 
-    public int gettime() {
+    public double gettime() {
         return time;
     }
 
-    public void settime(int time) {
+    public void settime(double time) {
         this.time = time;
     }
 
