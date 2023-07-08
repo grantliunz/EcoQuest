@@ -8,6 +8,7 @@ public class Player{
     private String name;
     private String id;
     private int score;
+    private int level;
     private Location location;
     private List<Quest> quests;
     private int steps;
@@ -18,7 +19,8 @@ public class Player{
         this.location = location;
         this.quests = quests;
         this.steps = steps;
-        calcScore(quests);
+        score = calcScore();
+        level = calcLevel();
     }
 
     public int getSteps() {
@@ -45,14 +47,22 @@ public class Player{
         return quests;
     }
 
-    private void calcScore(List<Quest> quests){
+    private int calcScore(){
         int score = 0;
         for (Quest quest: quests){
             if (quest.isCompleted()){
                 score += quest.getValue();
             }
         }
-        this.score = score;
+        return score;
+    }
+
+    private int calcLevel(){
+        return score / 50;
+    }
+
+    public int getLevel(){
+        return level;
     }
 
 }
