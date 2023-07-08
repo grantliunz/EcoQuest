@@ -3,6 +3,7 @@ package com.example.devs_hackathon_2023.User;
 import android.media.Image;
 
 import com.example.devs_hackathon_2023.Quest.Quest;
+import com.example.devs_hackathon_2023.R;
 import com.example.devs_hackathon_2023.shop.emotes.Emote;
 
 import java.util.ArrayList;
@@ -88,6 +89,17 @@ public abstract class MainPlayer {
 
     public static void addQuest(Quest quest) {
         quests.add(quest);
+    }
+
+    public static void setupQuest(){
+        quests = new ArrayList<>();
+        // Add your quest items to the list
+        quests.add(new Quest("Albert Park", "Discover the hidden wonders of the park.", "abc123", 86, 168.8421, false, R.drawable.quest1, 1));
+        quests.add(new Quest("Auckland Botanic Gardens", "Discover the hidden wonders of the gardens.", "abc123", 15, 168.8421, false, R.drawable.quest2, 1));
+        quests.add(new Quest("Straight A's", "Visit 3 places that start with the letter A", "abc123", 86, 168.8421, true, R.drawable.quest1, 3));
+        quests.add(new Quest("Auckland Botanic Gardens", "Discover the hidden wonders of the gardens.", "abc123", 15, 168.8421, false, R.drawable.quest2));
+        quests.add(new Quest("Auckland Domain", "Discover the hidden wonders of the park.", "abc123", 86, 168.8421, false, R.drawable.quest1));
+        quests.add(new Quest("Auckland Botanic Test", "Discover the hidden wonders of the gardens.", "abc123", 15, 168.8421, true, R.drawable.quest2));
     }
 
     public static List<Player> getFriends() {

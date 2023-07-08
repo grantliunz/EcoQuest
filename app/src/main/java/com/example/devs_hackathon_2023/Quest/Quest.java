@@ -26,7 +26,7 @@ public class Quest {
         this.noCompleted = 0;
         this.noTasks = 1;
         this.imagePath = imagePath;
-        this.completed = false;
+        this.completed = completed;
     }
     public Quest(String title, String description,String id, int value, double time, boolean completed, int imagePath, int noTasks) {
         this.title = title;
@@ -37,7 +37,7 @@ public class Quest {
         this.noCompleted = 0;
         this.noTasks = noTasks;
         this.imagePath = imagePath;
-        this.completed = false;
+        this.completed = completed;
     }
 
     public String getTitle() {
@@ -90,6 +90,9 @@ public class Quest {
     }
 
     public boolean isCompleted() {
+        if(completed){
+            this.noCompleted = this.noTasks;
+        }
         return completed;
     }
 
