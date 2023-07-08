@@ -27,6 +27,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import android.widget.TextView;
+import android.widget.Toast;
+
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,6 +39,8 @@ import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.devs_hackathon_2023.User.MainPlayer;
+import com.example.devs_hackathon_2023.activities.ProfileActivity;
 import com.example.devs_hackathon_2023.activities.ShopActivity;
 import com.example.devs_hackathon_2023.databinding.FragmentMapBinding;
 import com.example.devs_hackathon_2023.utils.PermissionUtils;
@@ -195,6 +201,11 @@ public class Map extends Fragment implements OnMapReadyCallback,
         boundedBox = getView().findViewById(R.id.boundedBox);
         boundedBox.bringToFront();
         setupShopButton();
+
+        setUpProfileButton();
+
+        loadProfile();
+
     }
 
     public void moveFriendsRandomly(){
@@ -362,6 +373,18 @@ public class Map extends Fragment implements OnMapReadyCallback,
     }
 
     //user stuff
+
+    private void setUpProfileButton() {
+        RelativeLayout layout = getView().findViewById(R.id.profileButton);
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle the click event
+                animateAndSwitch(v);
+            }
+        });
+    }
+
     private void setupShopButton() {
         ImageView clickableImageView = getView().findViewById(R.id.shopButton);
         clickableImageView.setOnClickListener(new View.OnClickListener() {
@@ -374,12 +397,31 @@ public class Map extends Fragment implements OnMapReadyCallback,
     }
 
 
+    private void loadProfile() {
+        ImageView profilePicture = getView().findViewById(R.id.mapProfilePicture);
+        profilePicture.setImageResource(MainPlayer.getProfilePicture());
+        TextView username = getView().findViewById(R.id.mapUserName);
+        username.setText(MainPlayer.getName());
+        TextView level = getView().findViewById(R.id.mapLevel);
+        level.setText(String.format("%d", MainPlayer.getLevel()));
+    }
+
     private void animateAndSwitch(View view) {
         // Get the click position
-        float startX = view.getX() + view.getWidth();
-        float startY = view.getY() + view.getHeight() + 50;
-        System.out.println("startX: " + startX);
-        System.out.println("startY: " + startY);
+        int viewId = view.getId();
+
+        int shop = getView().findViewById(R.id.shopButton).getId();
+        int profile = getView().findViewById(R.id.profileButton).getId();
+        float startX = 0, startY = 0;
+        if (viewId == profile) {
+            startX = 120;
+            startY = 110;
+        }
+
+        else if (viewId == shop) {
+            startX = 655;
+            startY = 120;
+        }
 
 
         circleView = new View(Map.this.requireContext());
@@ -404,7 +446,7 @@ public class Map extends Fragment implements OnMapReadyCallback,
                 // Remove the circular view
 
                 // Start the pop-up animation
-                startPopUpAnimation();
+                startPopUpAnimation(viewId);
             }
         });
 
@@ -413,13 +455,34 @@ public class Map extends Fragment implements OnMapReadyCallback,
 
     }
 
-    private void startPopUpAnimation() {
+    private void startPopUpAnimation(int viewId) {
+        int shop = getView().findViewById(R.id.shopButton).getId();
+        int profile = getView().findViewById(R.id.profileButton).getId();
+
+        if (viewId == profile) {
+            startProfileActivity();
+        }
+
+        else if (viewId == shop) {
+            startShopActivity();
+        }
+
+    }
+
+    private void startProfileActivity() {
+        Intent intent = new Intent(Map.this.requireContext(), ProfileActivity.class);
+        System.out.println("Starting ProfileActivity");
+        // Start the pop-up animation
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(Map.this.requireContext(), 0, R.anim.blow_up);
+        startActivity(intent, options.toBundle());
+    }
+
+    private void startShopActivity() {
         Intent intent = new Intent(Map.this.requireContext(), ShopActivity.class);
         System.out.println("Starting ShopActivity");
         // Start the pop-up animation
         ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(Map.this.requireContext(), 0, R.anim.blow_up);
         startActivity(intent, options.toBundle());
-
     }
 }
 
