@@ -1,16 +1,22 @@
 package com.example.devs_hackathon_2023.User;
 
 import com.example.devs_hackathon_2023.Quest.Quest;
+import com.example.devs_hackathon_2023.shop.emotes.Emote;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public abstract class MainPlayer {
+    private static final int XP_PER_LEVEL = 100;
     private static String name;
     private static String id;
     private static int score;
     private static Location location;
     private static List<Quest> quests;
+
+    private static Emote currentEmote;
 
     private static int steps;
 
@@ -43,13 +49,15 @@ public abstract class MainPlayer {
         return id;
     }
 
-    public int getScore() {
+    public static int getScore() {
         return score;
     }
 
-    public void setScore(int Mscore) {
+    public static void setScore(int Mscore) {
         score = Mscore;
     }
+
+    public static int getLevel(){return score / XP_PER_LEVEL; }
 
     public Location getLocation() {
         return location;
@@ -83,5 +91,11 @@ public abstract class MainPlayer {
         Quest quest = quests.stream().filter(q -> q.getId().equals(questId)).findFirst().get();
         quest.setCompleted(true);
         score += quest.getValue();
+    }
+    public static Emote getCurrentEmote(){
+        return currentEmote;
+    }
+    public static void setEmote(Emote emote){
+        currentEmote = emote;
     }
 }

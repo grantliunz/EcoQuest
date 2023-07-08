@@ -4,12 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.devs_hackathon_2023.R;
+import com.example.devs_hackathon_2023.User.MainPlayer;
 import com.example.devs_hackathon_2023.shop.emotes.Emote;
 
 import java.util.List;
@@ -35,8 +37,18 @@ public class EmoteAdapter extends RecyclerView.Adapter<EmoteAdapter.EmoteViewHol
         Emote emote = emoteList.get(position);
         holder.emoteTitleTextView.setText(emote.getTitle());
 //        holder.emoteDescriptionTextView.setText(emote.getDescription());
-        holder.emoteCostTextView.setText(String.valueOf(emote.getCost()));
+
+
+
         holder.emoteImageView.setImageResource(emote.getImagePath());
+        if (emote.equals(MainPlayer.getCurrentEmote())){
+            holder.emoteEquipButton.setText("Equipped");
+            holder.emoteEquipButton.setEnabled(false);
+        } else if (emote.getCost() > MainPlayer.getLevel()){
+            holder.emoteEquipButton.setText("Level " + emote.getCost());
+            holder.emoteEquipButton.setEnabled(false);
+        }
+
     }
 
     @Override
@@ -50,12 +62,17 @@ public class EmoteAdapter extends RecyclerView.Adapter<EmoteAdapter.EmoteViewHol
 //        TextView emoteDescriptionTextView;
         TextView emoteCostTextView;
 
+        Button emoteEquipButton;
+
         public EmoteViewHolder(@NonNull View itemView) {
             super(itemView);
             emoteImageView = itemView.findViewById(R.id.emoteImageView);
             emoteTitleTextView = itemView.findViewById(R.id.emoteTitleTextView);
 //            emoteDescriptionTextView = itemView.findViewById(R.id.emoteDescriptionTextView);
             emoteCostTextView = itemView.findViewById(R.id.emoteCostTextView);
+            emoteEquipButton = itemView.findViewById(R.id.emoteBuyButton);
+
+
         }
     }
 }

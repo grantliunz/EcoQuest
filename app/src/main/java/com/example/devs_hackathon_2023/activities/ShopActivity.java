@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.example.devs_hackathon_2023.MainActivity;
 import com.example.devs_hackathon_2023.R;
+import com.example.devs_hackathon_2023.User.MainPlayer;
 import com.example.devs_hackathon_2023.adaptors.EmoteAdapter;
 import com.example.devs_hackathon_2023.shop.emotes.Emote;
 import java.util.ArrayList;
@@ -25,6 +26,8 @@ public class ShopActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
         setupClickableButtons();
@@ -40,15 +43,16 @@ public class ShopActivity extends AppCompatActivity {
         // Prepare the emote list
         emoteList = new ArrayList<>();
         // Add your emote items to the list
-        emoteList.add(new Emote("Happy Dance", "Express your joy with a lively dance.", 50, R.drawable.happy_dance));
-        emoteList.add(new Emote("Cool Wave", "Send a cool wave to greet your friends.", 30, R.drawable.cool_wave));
-        emoteList.add(new Emote("To Good", "Send a cool wave to greet your friends.", 30, R.drawable.cool_wave));
-        emoteList.add(new Emote("Built Diff", "Send a cool wave to greet your friends.", 30, R.drawable.cool_wave));
-        emoteList.add(new Emote("Lets go", "Send a cool wave to greet your friends.", 30, R.drawable.cool_wave));
+        emoteList.add(new Emote("Happy Dance", "Express your joy with a lively dance.", 5, R.drawable.happy_dance));
+        emoteList.add(new Emote("Cool Wave", "Send a cool wave to greet your friends.", 10, R.drawable.cool_wave));
+        emoteList.add(new Emote("To Good", "Send a cool wave to greet your friends.", 15, R.drawable.cool_wave));
+        emoteList.add(new Emote("Built Diff", "Send a cool wave to greet your friends.", 20, R.drawable.cool_wave));
+        emoteList.add(new Emote("Lets go", "Send a cool wave to greet your friends.", 25, R.drawable.cool_wave));
 
         // Add more emotes as needed
 
         // Set up the adapter
+
         emoteAdapter = new EmoteAdapter(emoteList, this);
         recyclerView.setAdapter(emoteAdapter);
     }
