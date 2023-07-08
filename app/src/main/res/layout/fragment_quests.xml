@@ -4,22 +4,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Quests">
-
-    <TextView
-        android:id="@+id/questsTitleTextView"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="81dp"
-        android:gravity="right"
-        android:padding="20dp"
-        android:layout_marginRight="60dp"
-        android:text="Quests"
-        android:textAppearance="?android:textAppearanceLarge" />
+        android:layout_height="250px">
+        <TextView
+            android:id="@+id/Quests"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="50px"
+            android:text="Quests"
+            android:textColor="#000000"
+            android:textSize="26dp" />
+
+
+    </RelativeLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewQuest"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
-        android:paddingTop="100dp" />
+        android:layout_marginBottom="60dp"
+        android:paddingTop="100dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"/>
 
 </FrameLayout>

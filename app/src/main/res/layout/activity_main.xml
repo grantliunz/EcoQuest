@@ -8,63 +8,6 @@
     android:background="#777777"
     >
 
-    <RelativeLayout
-        android:id="@+id/boundedBox"
-        android:layout_width="204dp"
-        android:layout_height="113dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="false"
-        android:background="#098241"
-        android:padding="16dp"
-        >
-
-        <TextView
-            android:id="@+id/textBox"
-            android:layout_width="149dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/myImageView"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="-35dp"
-            android:background="#FFFFFF"
-            android:paddingLeft="40dp"
-            android:text="User Name"
-            android:textColor="#000000" />
-
-        <ImageView
-            android:id="@+id/myImageView"
-            android:layout_width="41dp"
-            android:layout_height="44dp"
-            android:src="@drawable/pfp" />
-
-
-        <com.google.android.material.progressindicator.LinearProgressIndicator
-            android:id="@+id/myProgressIndicator"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/myImageView"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="-35dp"
-            android:layout_marginBottom="48dp" />
-
-        <RelativeLayout
-            android:id="@+id/shopLayout"
-            android:layout_width="175dp"
-            android:layout_height="95dp">
-
-
-            <ImageView
-                android:id="@+id/shopButton"
-                android:layout_width="55dp"
-                android:layout_height="34dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:clickable="true"
-                android:focusable="true"
-                android:src="@drawable/shop" />
-
-        </RelativeLayout>
-    </RelativeLayout>
 
     <FrameLayout
         android:id="@+id/fragment_container"
@@ -92,8 +35,8 @@
 
 <!--    </LinearLayout>-->
 
+    </RelativeLayout>
 
 
 
-</RelativeLayout>
 
