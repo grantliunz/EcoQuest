@@ -35,8 +35,15 @@ public class QuestAdapter extends RecyclerView.Adapter<QuestAdapter.QuestViewHol
 
     @Override
     public void onBindViewHolder(@NonNull QuestViewHolder holder, int position) {
+
         Quest quest = questList.get(position);
-        holder.questImageView.setImageResource(quest.getImage());
+        //quest.completeOneTask();  // set all tasks to 1 completion for display purposes
+        //holder.questImageView.setImageResource(quest.getImage());
+        if (quest.isCompleted()){
+            holder.questImageView.setImageResource(R.drawable.quest2);
+        } else {
+            holder.questImageView.setImageResource(R.drawable.quest1);
+        }
         holder.questTitleTextView.setText(quest.getTitle());
         holder.questDescriptionTextView.setText(quest.getDescription());
         holder.questRewardTextView.setText("Reward: " + String.valueOf(quest.getValue()) + " xp");

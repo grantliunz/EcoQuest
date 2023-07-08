@@ -61,6 +61,10 @@ public class Quest {
     }
     public void completeOneTask(){
         noCompleted++;
+
+        if (noCompleted >= noTasks){
+            setCompleted(true);
+        }
     }
     public float getProgress(){
         return (float)noCompleted / (float)noTasks;

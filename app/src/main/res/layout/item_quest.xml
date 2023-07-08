@@ -8,15 +8,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
-        app:cardBackgroundColor="#BBBBBB"
         app:cardCornerRadius="10dp"
         app:cardElevation="2dp"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/quest_tab_background"/>
 
     <ImageView
         android:id="@+id/questImageView"
@@ -39,6 +45,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:textAppearanceMedium"
             android:textStyle="bold"
+            android:textColor="#222222"
             android:text="Quest Title" />
 
         <TextView
@@ -46,6 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="#343434"
             android:text="Quest Description" />
 
         <TextView
@@ -61,6 +69,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:textAppearanceMedium"
             android:layout_marginBottom="5dp"
+            android:textColor="#343434"
             android:text="Quest Reward" />
 
     </LinearLayout>
@@ -70,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:progress="50"
-            app:indicatorColor="#ab9844"
+            app:indicatorColor="#2743b3"
             />
 
 
