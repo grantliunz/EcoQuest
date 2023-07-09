@@ -1,6 +1,8 @@
 package com.example.devs_hackathon_2023.Quest;
 
+import com.example.devs_hackathon_2023.User.Location;
 import com.example.devs_hackathon_2023.User.MainPlayer;
+import com.example.devs_hackathon_2023.fragments.Map;
 
 import java.util.List;
 
@@ -17,6 +19,8 @@ public class Quest {
 
     private int imagePath;
 
+    private Location questLocation;
+
     public Quest(String title, String description,String id, int value, double time, boolean completed, int imagePath) {
         this.title = title;
         this.description = description;
@@ -27,6 +31,7 @@ public class Quest {
         this.noTasks = 1;
         this.imagePath = imagePath;
         this.completed = completed;
+        this.questLocation = null;
     }
     public Quest(String title, String description,String id, int value, double time, boolean completed, int imagePath, int noTasks) {
         this.title = title;
@@ -38,6 +43,20 @@ public class Quest {
         this.noTasks = noTasks;
         this.imagePath = imagePath;
         this.completed = completed;
+        this.questLocation = null;
+    }
+    public Quest(String title, String description, String id, int value, double time, boolean completed, int imagePath, int noTasks, Location location) {
+        this.title = title;
+        this.description = description;
+        this.id = id;
+        this.value = value;
+        this.time = time;
+        this.noCompleted = 0;
+        this.noTasks = noTasks;
+        this.imagePath = imagePath;
+        this.completed = completed;
+        this.questLocation = location;
+
     }
 
     public String getTitle() {
@@ -52,6 +71,27 @@ public class Quest {
         return description;
     }
 
+     private Location getQuestLoc(){
+        return questLocation;
+    }
+
+    public boolean testQuestCompletion(Location curLocation){
+
+        if (questLocation != null && curLocation != null){
+            return areTwoCoordinatesClose(questLocation, curLocation);
+        }
+        return false;
+    }
+
+    private boolean areTwoCoordinatesClose(Location first, Location second){
+        if(first == null || second == null){
+            return false;
+        }
+        double distance = Math.sqrt(Math.pow(first.getLatitude() - second.getLatitude(), 2) + Math.pow(first.getLongitude() - second.getLongitude(), 2));
+        return distance < 0.0007;
+    }
+
+
     public void setDescription(String description) {
         this.description = description;
     }
@@ -63,7 +103,7 @@ public class Quest {
         noCompleted++;
 
         if (noCompleted >= noTasks){
-            setCompleted(true);
+            setCompleted(true); // change to the new completion method
         }
     }
     public float getProgress(){
