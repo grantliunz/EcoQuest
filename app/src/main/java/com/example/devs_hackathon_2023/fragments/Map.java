@@ -53,6 +53,7 @@ import com.example.devs_hackathon_2023.User.Player;
 import com.example.devs_hackathon_2023.activities.ProfileActivity;
 import com.example.devs_hackathon_2023.activities.ShopActivity;
 import com.example.devs_hackathon_2023.databinding.FragmentMapBinding;
+import com.example.devs_hackathon_2023.shop.emotes.Emote;
 import com.example.devs_hackathon_2023.utils.PermissionUtils;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -252,8 +253,19 @@ public class Map extends Fragment implements OnMapReadyCallback,
         MarkerOptions myMarkerOptions = new MarkerOptions()
                 .position(myMarkerLocation)
                 .title(MainPlayer.getName())
-                .icon(myIcon).zIndex(1);
+                .icon(myIcon).zIndex(2);
         markers.add(myMarkerOptions);
+        // pet
+        Emote pet = MainPlayer.getCurrentPet();
+        if (pet != null){
+            LatLng myPetMarkerLocation = new LatLng(currentLocation.getLatitude()-0.0002, currentLocation.getLongitude()-0.0002);
+            BitmapDescriptor myPetIcon = getAvatarIcon(pet.getImagePath(), 150, false);
+            MarkerOptions myPetMarkerOptions = new MarkerOptions()
+                    .position(myPetMarkerLocation)
+                    .title(pet.getTitle())
+                    .icon(myPetIcon).zIndex(1);
+            markers.add(myPetMarkerOptions);
+        }
         // update friends avatars
         List<Player> players = Database.getPlayers().subList(0,30);
         for (Player friend : players){

@@ -1,6 +1,7 @@
 package com.example.devs_hackathon_2023.adaptors;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,18 @@ public class EmoteAdapter extends RecyclerView.Adapter<EmoteAdapter.EmoteViewHol
             holder.emoteEquipButton.setEnabled(false);
         }
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch(emote.getType()){
+                    case "Pet":
+                        MainPlayer.setPet(emote);
+                        Log.d("TAG", emote.getTitle());
+                        break;
+                }
+            }
+        });
+
     }
 
     @Override
@@ -71,7 +84,6 @@ public class EmoteAdapter extends RecyclerView.Adapter<EmoteAdapter.EmoteViewHol
 //            emoteDescriptionTextView = itemView.findViewById(R.id.emoteDescriptionTextView);
             emoteCostTextView = itemView.findViewById(R.id.emoteCostTextView);
             emoteEquipButton = itemView.findViewById(R.id.emoteBuyButton);
-
 
         }
     }
