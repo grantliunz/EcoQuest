@@ -298,7 +298,7 @@ public class Map extends Fragment implements OnMapReadyCallback,
         for (Player friend : players){
             // add a marker
             LatLng markerLocation = new LatLng(friend.getLocation().getLatitude(), friend.getLocation().getLongitude());
-            BitmapDescriptor icon = getAvatarIcon(R.drawable.pfp, 150, false);
+            BitmapDescriptor icon = getAvatarIcon(friend.getProfilePictureId(), 150, false);
             MarkerOptions markerOptions = new MarkerOptions()
                     .position(markerLocation)
                     .title(friend.getName())
