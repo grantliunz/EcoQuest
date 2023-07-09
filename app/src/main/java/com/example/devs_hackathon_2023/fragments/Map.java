@@ -190,7 +190,6 @@ public class Map extends Fragment implements OnMapReadyCallback,
                         currentLocation = location;
 //                        Log.d("TAG", "loc: lat " + currentLocation.getLatitude() + ", long " + currentLocation.getLongitude());
                         updateIcons();
-                        System.out.println("Location: " + location.getLatitude() + ", " + location.getLongitude());
 
                         while (distanceToXp >= 100) {
                             MainPlayer.setScore(MainPlayer.getScore() + 10);
@@ -199,10 +198,6 @@ public class Map extends Fragment implements OnMapReadyCallback,
 
                         loadProfile();
 
-
-                        if (previousLocation != null) {
-                            System.out.println("Previous Location: " + previousLocation.getLatitude() + ", " + previousLocation.getLongitude());
-                        }
                         // Increment step count when location changes
                         if (previousLocation != null) {
                             if (isLocationChanged(location)) {
@@ -516,7 +511,7 @@ public class Map extends Fragment implements OnMapReadyCallback,
         // Define the animation
         float endRadius = 600;
         Animator animator = ViewAnimationUtils.createCircularReveal(circleView, (int) startX, (int) startY, 30, 2900);
-        animator.setDuration(800);
+        animator.setDuration(500);
 
         // Set an animation listener
         animator.addListener(new AnimatorListenerAdapter() {

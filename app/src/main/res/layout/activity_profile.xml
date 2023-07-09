@@ -5,11 +5,19 @@
     android:background="#F5F5F5">
 
     <!-- Background Overlay -->
+
+    <ImageView
+        android:id="@+id/backgroundImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/profile_background_overlay"
+        android:scaleType="centerCrop" />
+
     <ImageView
         android:id="@+id/backgroundOverlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/profile_background_overlay"
+        android:src="@drawable/grass"
         android:scaleType="centerCrop" />
     <RelativeLayout
         android:layout_width="match_parent"

@@ -1,5 +1,6 @@
 package com.example.devs_hackathon_2023.fragments;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.devs_hackathon_2023.Quest.Quest;
 import com.example.devs_hackathon_2023.R;
@@ -45,6 +47,9 @@ public class Quests extends Fragment {
         // Set up the adapter
         questAdapter = new QuestAdapter(questList, getContext());
         recyclerView.setAdapter(questAdapter);
+        Typeface customTypeface = Typeface.createFromAsset(getActivity().getAssets(), "test.ttf");
+        TextView questTitle = view.findViewById(R.id.Quests);
+//        questTitle.setTypeface(customTypeface);
 
         return view;
     }

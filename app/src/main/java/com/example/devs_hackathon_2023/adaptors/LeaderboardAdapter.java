@@ -3,6 +3,7 @@ package com.example.devs_hackathon_2023.adaptors;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,9 +46,9 @@ public class LeaderboardAdapter extends ArrayAdapter<Player> {
 
         // Alternate background color
         if (position % 2 == 0) {
-            convertView.setBackgroundColor(context.getResources().getColor(R.color.grey, null));
+            convertView.setBackgroundColor(Color.parseColor("#729b31"));
         } else {
-            convertView.setBackgroundColor(context.getResources().getColor(R.color.white, null));
+            convertView.setBackgroundColor(Color.parseColor("#33661d"));
         }
 
         ranking.setText(String.valueOf(position + 1));
