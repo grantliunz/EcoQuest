@@ -29,6 +29,11 @@ public abstract class MainPlayer {
 
     private static List<Player> friends;
 
+    private static int distanceWalked;
+
+    private static int landmarksVisited;
+
+
 
     public static void createPlayer(String Mname, String Mid, Location Mlocation){
         name = Mname;
@@ -39,6 +44,8 @@ public abstract class MainPlayer {
         steps = 0;
         money = 0;
         friends = new ArrayList<>();
+        distanceWalked = 0;
+        landmarksVisited = 0;
     }
 
 
@@ -67,6 +74,14 @@ public abstract class MainPlayer {
 
     public static void setScore(int Mscore) {
         score = Mscore;
+    }
+
+    public static int getSteps() {
+        return steps;
+    }
+
+    public static void setSteps(int Msteps) {
+        steps = Msteps;
     }
 
     public static int getLevel(){return score / XP_PER_LEVEL; }
@@ -144,4 +159,27 @@ public abstract class MainPlayer {
     public static void setEmote(Emote emote){
         currentEmote = emote;
     }
+
+    public static int getXp(){
+        return score % XP_PER_LEVEL;
+    }
+
+    public static int getDistanceWalked() {
+        return distanceWalked;
+    }
+
+    public static int getLandmarksVisited() {
+        return landmarksVisited;
+    }
+
+    public static int getCompleted(){
+        int completed = 0;
+        for (Quest quest : quests) {
+            if (quest.isCompleted()) {
+                completed ++;
+            }
+        }
+        return completed;
+    }
+
 }
