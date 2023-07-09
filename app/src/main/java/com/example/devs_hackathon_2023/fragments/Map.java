@@ -295,15 +295,17 @@ public class Map extends Fragment implements OnMapReadyCallback,
 
         // update friends avatars
         List<Player> players = Database.getPlayers().subList(0,30);
-        for (Player friend : players){
+        for (Player friend : players) {
             // add a marker
-            LatLng markerLocation = new LatLng(friend.getLocation().getLatitude(), friend.getLocation().getLongitude());
-            BitmapDescriptor icon = getAvatarIcon(friend.getProfilePictureId(), 150, false);
-            MarkerOptions markerOptions = new MarkerOptions()
-                    .position(markerLocation)
-                    .title(friend.getName())
-                    .icon(icon);
-            markers.add(markerOptions);
+            if (friend.getLocation() != null) {
+                LatLng markerLocation = new LatLng(friend.getLocation().getLatitude(), friend.getLocation().getLongitude());
+                BitmapDescriptor icon = getAvatarIcon(friend.getProfilePictureId(), 150, false);
+                MarkerOptions markerOptions = new MarkerOptions()
+                        .position(markerLocation)
+                        .title(friend.getName())
+                        .icon(icon);
+                markers.add(markerOptions);
+            }
         }
         map.clear();
         for (MarkerOptions marker : markers){
