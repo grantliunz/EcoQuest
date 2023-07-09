@@ -93,7 +93,7 @@ public class Map extends Fragment implements OnMapReadyCallback,
             this.longitude = longitude;
         }
     }
-
+    private final int THRESHOLD_DISTANCE = 1;
     private FragmentMapBinding binding;
     private GoogleMap map;
     private boolean permissionDenied = false;
@@ -101,15 +101,18 @@ public class Map extends Fragment implements OnMapReadyCallback,
     protected View circleView;
     private View boundedBox;
 
+    private Location previousLocation = null;
+
     private Polyline polyline;
     private boolean isCanceled = false;
     private PolylineOptions currPolylineOptions;
 
 
-            private FusedLocationProviderClient fusedLocationClient;
+    private FusedLocationProviderClient fusedLocationClient;
     private LocationCallback locationCallback;
     private Location currentLocation;
     private Coordinates targetLocation;
+
 
 
     public void setTargetLocation(double latitude, double longitude){
@@ -165,6 +168,24 @@ public class Map extends Fragment implements OnMapReadyCallback,
                     Location location = locationResult.getLastLocation();
                     if (location != null) {
                         currentLocation = location;
+                        System.out.println("Location: " + location.getLatitude() + ", " + location.getLongitude());
+                        if (previousLocation != null) {
+                            System.out.println("Previous Location: " + previousLocation.getLatitude() + ", " + previousLocation.getLongitude());
+
+
+                        }
+                        // Increment step count when location changes
+                        if (previousLocation != null) {
+                            if (isLocationChanged(location)) {
+                                double distance_between = location.distanceTo(previousLocation);
+                                System.out.println("distance between: " + distance_between);
+                                MainPlayer.setSteps(MainPlayer.getSteps() + (int) (distance_between / 0.8142));
+
+                            }
+
+                        }
+                        previousLocation = location;
+
 //                        Log.d("TAG", "loc: lat " + currentLocation.getLatitude() + ", long " + currentLocation.getLongitude());
                         ArrayList<MarkerOptions> markers = new ArrayList<>();
                         // update user avatar
@@ -228,6 +249,16 @@ public class Map extends Fragment implements OnMapReadyCallback,
         fusedLocationClient.removeLocationUpdates(locationCallback);
     }
 
+    private boolean isLocationChanged(Location newLocation) {
+        // Compare the new location with the previous location or any other logic as needed
+        // Return true if the location has changed, otherwise false
+
+        // Example logic: Check if the distance between the new location and previous location is significant
+        if (previousLocation != newLocation) {
+            return true;
+        }
+        return false;
+    }
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         googleMap.setMapStyle(
