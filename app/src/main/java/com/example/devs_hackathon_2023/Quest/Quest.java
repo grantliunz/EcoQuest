@@ -103,7 +103,7 @@ public class Quest {
         noCompleted++;
 
         if (noCompleted >= noTasks){
-            setCompleted(true);
+            setCompleted(true); // change to the new completion method
         }
     }
     public float getProgress(){
