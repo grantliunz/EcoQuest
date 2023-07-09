@@ -71,7 +71,7 @@ public class Quest {
         return description;
     }
 
-     private Location getQuestLoc(){
+     public Location getQuestLoc(){
         return questLocation;
     }
 

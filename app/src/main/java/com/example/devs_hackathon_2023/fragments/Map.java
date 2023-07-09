@@ -43,6 +43,7 @@ import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.devs_hackathon_2023.Quest.Quest;
 import com.example.devs_hackathon_2023.R;
 import com.example.devs_hackathon_2023.User.Database;
 import com.example.devs_hackathon_2023.User.MainPlayer;
@@ -78,7 +79,6 @@ import com.google.maps.android.PolyUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Map extends Fragment implements OnMapReadyCallback,
         GoogleMap.OnMyLocationButtonClickListener
@@ -110,6 +110,8 @@ public class Map extends Fragment implements OnMapReadyCallback,
     private LocationCallback locationCallback;
     private Location currentLocation;
     private Coordinates targetLocation;
+
+
 
 
     public void setTargetLocation(double latitude, double longitude){
@@ -198,6 +200,7 @@ public class Map extends Fragment implements OnMapReadyCallback,
                             // check if current location is close to target location
 //                            Log.d("TAG", String.valueOf(areTwoCoordinatesClose(new Coordinates(currentLocation.getLatitude(), currentLocation.getLongitude()), targetLocation)));
                         }
+                        addLocationMarkers();
                     }
                 }
             }
@@ -214,6 +217,21 @@ public class Map extends Fragment implements OnMapReadyCallback,
 
         loadProfile();
 
+
+
+    }
+
+    private void addLocationMarkers(){
+        BitmapDescriptor myIcon = getAvatarIcon(R.drawable.pin, 100, false);
+
+        for(Quest quest : MainPlayer.getQuests()){
+            if(quest.getQuestLoc() == null) continue ;
+            double lat = quest.getQuestLoc().getLatitude();
+            double lon = quest.getQuestLoc().getLongitude();
+            System.out.println(quest.getTitle() + " " + lat + " " + lon);
+
+            map.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title(quest.getTitle()).icon(myIcon));
+        }
     }
 
     private void startLocationUpdates() {
@@ -261,6 +279,8 @@ public class Map extends Fragment implements OnMapReadyCallback,
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 16f));
             }
         }
+
+
     }
 
     public BitmapDescriptor getAvatarIcon(int resourceId, int size, boolean hasBorder){
