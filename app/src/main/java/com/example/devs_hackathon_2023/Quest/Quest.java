@@ -105,7 +105,7 @@ public class Quest {
         noCompleted++;
 
         if (noCompleted >= noTasks){
-            setCompleted(true); // change to the new completion method
+            MainPlayer.completeQuest(this.id); // change to the new completion method
         }
     }
     public float getProgress(){

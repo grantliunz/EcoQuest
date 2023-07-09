@@ -594,6 +594,9 @@ public class Map extends Fragment implements OnMapReadyCallback,
     }
     public void drawRoute(LatLng origin, LatLng destination) throws PackageManager.NameNotFoundException {
 
+        if (destination.latitude == 0 && destination.longitude == 0){
+            return;
+        }
         Context appContext = requireActivity().getApplicationContext();
         ApplicationInfo ai = appContext.getPackageManager().getApplicationInfo(appContext.getPackageName(),
                 PackageManager.GET_META_DATA);
