@@ -16,9 +16,7 @@ public class Quest {
     private boolean completed;
     private int noTasks;
     private List<MainPlayer> scores;
-
     private int imagePath;
-
     private Location questLocation;
 
     public Quest(String title, String description,String id, int value, double time, boolean completed, int imagePath) {
@@ -75,6 +73,10 @@ public class Quest {
         return questLocation;
     }
 
+    public boolean locationExists(){
+        return questLocation != null;
+    }
+
     public boolean testQuestCompletion(Location curLocation){
 
         if (questLocation != null && curLocation != null){
@@ -103,7 +105,7 @@ public class Quest {
         noCompleted++;
 
         if (noCompleted >= noTasks){
-            setCompleted(true); // change to the new completion method
+            MainPlayer.completeQuest(this.id); // change to the new completion method
         }
     }
     public float getProgress(){

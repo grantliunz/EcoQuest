@@ -39,9 +39,9 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
 
-    private Map map = new Map();
-    private Quests quests = new Quests();
-    private Social social = new Social();
+    public static Map map = new Map();
+    public static Quests quests = new Quests();
+    public static Social social = new Social();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         MainPlayer.setName("Aaron Stevens");
         MainPlayer.setupQuest();
         MainPlayer.setupScore();
-
+        MainPlayer.setupId();
     }
 
     @Override

@@ -47,10 +47,6 @@ public class Quests extends Fragment {
         // Set up the adapter
         questAdapter = new QuestAdapter(questList, getContext());
         recyclerView.setAdapter(questAdapter);
-        Typeface customTypeface = Typeface.createFromAsset(getActivity().getAssets(), "test.ttf");
-        TextView questTitle = view.findViewById(R.id.Quests);
-//        questTitle.setTypeface(customTypeface);
-
         return view;
     }
 
