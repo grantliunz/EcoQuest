@@ -164,10 +164,6 @@ public abstract class MainPlayer {
         return score % XP_PER_LEVEL;
     }
 
-    public static int getSteps() {
-        return steps;
-    }
-
     public static int getDistanceWalked() {
         return distanceWalked;
     }
