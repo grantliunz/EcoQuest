@@ -68,6 +68,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.maps.DirectionsApi;
 import com.google.maps.GeoApiContext;
 import com.google.maps.model.DirectionsResult;
@@ -106,6 +107,8 @@ public class Map extends Fragment implements OnMapReadyCallback,
     private Polyline polyline;
     private boolean isCanceled = false;
     private PolylineOptions currPolylineOptions;
+
+    private int distanceToXp = 0;
 
 
     private FusedLocationProviderClient fusedLocationClient;
@@ -169,10 +172,15 @@ public class Map extends Fragment implements OnMapReadyCallback,
                     if (location != null) {
                         currentLocation = location;
                         System.out.println("Location: " + location.getLatitude() + ", " + location.getLongitude());
+                        while (distanceToXp >= 100) {
+                            MainPlayer.setScore(MainPlayer.getScore() + 10);
+                            distanceToXp -= 100;
+                        }
+
+                        loadProfile();
+
                         if (previousLocation != null) {
                             System.out.println("Previous Location: " + previousLocation.getLatitude() + ", " + previousLocation.getLongitude());
-
-
                         }
                         // Increment step count when location changes
                         if (previousLocation != null) {
@@ -180,6 +188,8 @@ public class Map extends Fragment implements OnMapReadyCallback,
                                 double distance_between = location.distanceTo(previousLocation);
                                 System.out.println("distance between: " + distance_between);
                                 MainPlayer.setSteps(MainPlayer.getSteps() + (int) (distance_between / 0.8142));
+                                distanceToXp += (int) distance_between;
+                                MainPlayer.setDistanceWalked(MainPlayer.getDistanceWalked() + (int) distance_between);
 
                             }
 
@@ -425,6 +435,9 @@ public class Map extends Fragment implements OnMapReadyCallback,
         username.setText(MainPlayer.getName());
         TextView level = getView().findViewById(R.id.mapLevel);
         level.setText(String.format("%d", MainPlayer.getLevel()));
+        LinearProgressIndicator progressIndicator = getView().findViewById(R.id.myProgressIndicator);
+        int progress = MainPlayer.getXp(); // Get the progress value from MainPlayer or any desired source
+        progressIndicator.setProgressCompat(progress, true);
     }
 
 
