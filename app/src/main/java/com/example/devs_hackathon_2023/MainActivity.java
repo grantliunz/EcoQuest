@@ -34,9 +34,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private Map map = new Map();
-    private Quests quests = new Quests();
-    private Social social = new Social();
+    public static Map map = new Map();
+    public static Quests quests = new Quests();
+    public static Social social = new Social();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

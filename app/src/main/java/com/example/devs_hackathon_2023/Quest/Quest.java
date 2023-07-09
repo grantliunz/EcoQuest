@@ -16,9 +16,7 @@ public class Quest {
     private boolean completed;
     private int noTasks;
     private List<MainPlayer> scores;
-
     private int imagePath;
-
     private Location questLocation;
 
     public Quest(String title, String description,String id, int value, double time, boolean completed, int imagePath) {
@@ -71,8 +69,12 @@ public class Quest {
         return description;
     }
 
-     private Location getQuestLoc(){
+     public Location getQuestLoc(){
         return questLocation;
+    }
+
+    public boolean locationExists(){
+        return questLocation != null;
     }
 
     public boolean testQuestCompletion(Location curLocation){

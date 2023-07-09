@@ -43,6 +43,7 @@ import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.devs_hackathon_2023.MainActivity;
 import com.example.devs_hackathon_2023.R;
 import com.example.devs_hackathon_2023.User.Database;
 import com.example.devs_hackathon_2023.User.MainPlayer;
@@ -118,6 +119,10 @@ public class Map extends Fragment implements OnMapReadyCallback,
     public void setTargetLocation(double latitude, double longitude){
         this.targetLocation = new Coordinates(latitude, longitude);
     }
+
+    public Location getCurrentLocation(){
+        return currentLocation;
+        }
 
     @Nullable
     @Override
@@ -506,7 +511,7 @@ public class Map extends Fragment implements OnMapReadyCallback,
         ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(Map.this.requireContext(), 0, R.anim.blow_up);
         startActivity(intent, options.toBundle());
     }
-    private void drawRoute(LatLng origin, LatLng destination) throws PackageManager.NameNotFoundException {
+    public void drawRoute(LatLng origin, LatLng destination) throws PackageManager.NameNotFoundException {
         Context appContext = requireActivity().getApplicationContext();
         ApplicationInfo ai = appContext.getPackageManager().getApplicationInfo(appContext.getPackageName(), PackageManager.GET_META_DATA);
         Bundle metaData = ai.metaData;
@@ -571,6 +576,7 @@ public class Map extends Fragment implements OnMapReadyCallback,
             throw new RuntimeException(e);
         }
     }
+
 
 //    @Override
 //    public void onCameraMoveStarted(int reason) {
