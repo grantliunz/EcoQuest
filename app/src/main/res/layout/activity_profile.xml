@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#F5F5F5">
+
     <!-- Background Overlay -->
     <ImageView
         android:id="@+id/backgroundOverlay"
@@ -10,6 +11,12 @@
         android:layout_height="match_parent"
         android:src="@drawable/profile_background_overlay"
         android:scaleType="centerCrop" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="50dp">
+
+
     <!-- Profile Picture -->
     <ImageView
         android:id="@+id/profilePicture"
@@ -43,181 +50,22 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp" />
 
-    <!-- Stats Container 1 -->
-    <LinearLayout
-        android:id="@+id/statsContainer1"
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/myProgressIndicator"
         android:layout_width="match_parent"
+        android:layout_alignStart="@id/profilePicture"
+        android:layout_alignEnd="@id/profilePicture"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
         android:layout_below="@id/level"
-        android:layout_marginTop="24dp">
+        android:progress="50"/>
 
-        <!-- Stat Item 1 -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_marginEnd="32dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="350"
-                android:textSize="28sp"
-                android:textStyle="bold"
-                android:textColor="#000000" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Distance Walked"
-                android:textSize="14sp"
-                android:textColor="#808080" />
-
-        </LinearLayout>
-
-        <!-- Stat Item 2 -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_marginEnd="32dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="100K"
-                android:textSize="28sp"
-                android:textStyle="bold"
-                android:textColor="#000000" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Steps Taken"
-                android:textSize="14sp"
-                android:textColor="#808080" />
-
-        </LinearLayout>
-
-        <!-- Stat Item 3 -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="50"
-                android:textSize="28sp"
-                android:textStyle="bold"
-                android:textColor="#000000" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Landmarks Visited"
-                android:textSize="14sp"
-                android:textColor="#808080" />
-
-        </LinearLayout>
-
-
-
-    </LinearLayout>
-
-    <!-- Stats Container 2 -->
-    <LinearLayout
-        android:id="@+id/statsContainer2"
+    <!-- Stats GridView -->
+    <GridView
+        android:id="@+id/statsGridView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_below="@id/statsContainer1"
-        android:layout_marginTop="24dp">
-
-        <!-- Stat Item 4 -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_marginEnd="32dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="350"
-                android:textSize="28sp"
-                android:textStyle="bold"
-                android:textColor="#000000" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Distance Walked"
-                android:textSize="14sp"
-                android:textColor="#808080" />
-
-        </LinearLayout>
-
-        <!-- Stat Item 5 -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_marginEnd="32dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="100K"
-                android:textSize="28sp"
-                android:textStyle="bold"
-                android:textColor="#000000" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Steps Taken"
-                android:textSize="14sp"
-                android:textColor="#808080" />
-
-        </LinearLayout>
-
-        <!-- Stat Item 6 -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="50"
-                android:textSize="28sp"
-                android:textStyle="bold"
-                android:textColor="#000000" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Landmarks Visited"
-                android:textSize="14sp"
-                android:textColor="#808080" />
-
-        </LinearLayout>
-
-
-
-    </LinearLayout>
-
-
+        android:layout_below="@id/level"
+        android:layout_marginTop="24dp"
+        android:numColumns="2" />
+</RelativeLayout>
 </RelativeLayout>

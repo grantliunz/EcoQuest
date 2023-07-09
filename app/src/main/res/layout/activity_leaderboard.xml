@@ -5,6 +5,13 @@
     android:layout_height="match_parent"
     tools:context=".activities.LeaderboardActivity">
 
+    <ImageView
+        android:id="@+id/backgroundOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/profile_background_overlay"
+        android:scaleType="centerCrop" />
+
     <TextView
         android:id="@+id/leaderboardText"
         android:layout_width="match_parent"
