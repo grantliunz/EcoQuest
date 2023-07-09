@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".fragments.Quests"
     >
+
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -13,15 +14,21 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="250px">
+
         <TextView
             android:id="@+id/Quests"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_margin="50px"
+            android:layout_marginStart="50px"
+            android:layout_marginTop="50px"
+            android:layout_marginEnd="50px"
+            android:layout_marginBottom="50px"
             android:text="Tasks"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:textSize="40dp"
             android:textColor="#000000"
-            android:textSize="26dp" />
+            />
 
 
     </RelativeLayout>
@@ -36,5 +43,6 @@
         android:paddingTop="100dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"/>
+
 
 </FrameLayout>
