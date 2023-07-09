@@ -78,8 +78,6 @@ public class Quest {
     public boolean testQuestCompletion(Location curLocation){
 
         if (questLocation != null && curLocation != null){
-            System.out.println("current long:" + curLocation.getLongitude());
-            System.out.println("target long:" + questLocation.getLongitude());
             return areTwoCoordinatesClose(questLocation, curLocation);
         }
         return false;
@@ -90,7 +88,7 @@ public class Quest {
             return false;
         }
         double distance = Math.sqrt(Math.pow(first.getLatitude() - second.getLatitude(), 2) + Math.pow(first.getLongitude() - second.getLongitude(), 2));
-        return distance < 0.0003;
+        return distance < 0.0007;
     }
 
 

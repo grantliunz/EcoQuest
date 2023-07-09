@@ -106,7 +106,7 @@ public abstract class MainPlayer {
         for (Quest quest : quests){
             if (!quest.isCompleted()){
                 if (quest.testQuestCompletion(curLocation)){
-                    System.out.println("completing");
+                    // quest is completed
                     quest.completeOneTask();
                 }
             }
