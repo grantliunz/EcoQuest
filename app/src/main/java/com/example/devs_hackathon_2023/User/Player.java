@@ -1,6 +1,9 @@
 package com.example.devs_hackathon_2023.User;
 
+import android.graphics.Bitmap;
+
 import com.example.devs_hackathon_2023.Quest.Quest;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 
 import java.util.List;
 
@@ -13,10 +16,13 @@ public class Player{
     private List<Quest> quests;
     private int steps;
 
-    public Player(String name, String id, int score) {
+    private Bitmap profilePicture;
+
+    public Player(String name, String id, int score, Bitmap profilePicture) {
         this.name = name;
         this.id = id;
         this.score = score;
+        this.profilePicture = profilePicture;
     }
 
     public Player(String name, String id, Location location, List<Quest> quests, int steps) {
@@ -69,6 +75,14 @@ public class Player{
 
     public int getLevel(){
         return level;
+    }
+
+    public void setProfilePicture(Bitmap profilePicture) {
+        this.profilePicture = profilePicture;
+    }
+
+    public Bitmap getProfilePicture() {
+        return profilePicture;
     }
 
 }
