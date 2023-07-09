@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -50,13 +52,13 @@ public class EmoteAdapter extends RecyclerView.Adapter<EmoteAdapter.EmoteViewHol
             holder.emoteEquipButton.setEnabled(false);
         }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.emoteEquipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 switch(emote.getType()){
                     case "Pet":
                         MainPlayer.setPet(emote);
-                        Log.d("TAG", emote.getTitle());
+                        Toast.makeText(view.getContext(), emote.getTitle() + " equipped!", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }

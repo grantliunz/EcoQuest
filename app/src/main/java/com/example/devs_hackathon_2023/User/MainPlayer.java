@@ -89,6 +89,7 @@ public abstract class MainPlayer {
     }
 
     public static int getLevel(){
+//        return 50; // hard code level if needed
         return score / XP_PER_LEVEL;
     }
 
