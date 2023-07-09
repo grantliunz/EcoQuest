@@ -622,9 +622,7 @@ public class Map extends Fragment implements OnMapReadyCallback,
     public void onCameraMoveStarted(int reason) {
         // This method will be called when the camera starts to move
         // Handle the camera move event and call your function here
-        if (delayedHandler != null){
-            delayedHandler.removeCallbacksAndMessages(null);
-        }
+        cancelDelayedHandler();
         stopLocationUpdates();
     }
 
@@ -640,8 +638,12 @@ public class Map extends Fragment implements OnMapReadyCallback,
                 startLocationUpdates();
             }
         };
-
         delayedHandler.postDelayed(runnable, 1500);
     }
 
+    public void cancelDelayedHandler() {
+        if (delayedHandler != null){
+            delayedHandler.removeCallbacksAndMessages(null);
+        }
+    }
 }
