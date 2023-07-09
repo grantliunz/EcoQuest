@@ -63,12 +63,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.task_button) {
+                    map.cancelDelayedHandler();
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, quests).commit();
                     return true;
                 } else if (item.getItemId() == R.id.map_button) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, map).commit();
                     return true;
                 } else if (item.getItemId() == R.id.social_button) {
+                    map.cancelDelayedHandler();
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, social).commit();
                     return true;
                 }
