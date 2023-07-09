@@ -97,13 +97,15 @@ public class Map extends Fragment implements OnMapReadyCallback,
             this.longitude = longitude;
         }
     }
-
+    private final int THRESHOLD_DISTANCE = 1;
     private FragmentMapBinding binding;
     private GoogleMap map;
     private boolean permissionDenied = false;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     protected View circleView;
     private View boundedBox;
+
+    private Location previousLocation = null;
 
     private Polyline polyline;
     private boolean isCanceled = false;
@@ -113,6 +115,7 @@ public class Map extends Fragment implements OnMapReadyCallback,
     private LocationCallback locationCallback;
     private Location currentLocation;
     private Coordinates targetLocation;
+
 
 
     public void setTargetLocation(double latitude, double longitude){
@@ -186,6 +189,24 @@ public class Map extends Fragment implements OnMapReadyCallback,
                     Location location = locationResult.getLastLocation();
                     if (location != null) {
                         currentLocation = location;
+                        System.out.println("Location: " + location.getLatitude() + ", " + location.getLongitude());
+                        if (previousLocation != null) {
+                            System.out.println("Previous Location: " + previousLocation.getLatitude() + ", " + previousLocation.getLongitude());
+
+
+                        }
+                        // Increment step count when location changes
+                        if (previousLocation != null) {
+                            if (isLocationChanged(location)) {
+                                double distance_between = location.distanceTo(previousLocation);
+                                System.out.println("distance between: " + distance_between);
+                                MainPlayer.setSteps(MainPlayer.getSteps() + (int) (distance_between / 0.8142));
+
+                            }
+
+                        }
+                        previousLocation = location;
+
 //                        Log.d("TAG", "loc: lat " + currentLocation.getLatitude() + ", long " + currentLocation.getLongitude());
                         ArrayList<MarkerOptions> markers = new ArrayList<>();
                         // update user avatar
@@ -196,6 +217,9 @@ public class Map extends Fragment implements OnMapReadyCallback,
                                 .title("Connor")
                                 .icon(myIcon).zIndex(1);
                         markers.add(myMarkerOptions);
+                        // update quests
+                        MainPlayer.updateQuests(new com.example.devs_hackathon_2023.User.Location(currentLocation.getLatitude(), currentLocation.getLongitude()));
+
                         // update friends avatars
                         for (Player friend : Database.getPlayers().subList(0,5)){
                             // add a marker
@@ -249,6 +273,16 @@ public class Map extends Fragment implements OnMapReadyCallback,
         fusedLocationClient.removeLocationUpdates(locationCallback);
     }
 
+    private boolean isLocationChanged(Location newLocation) {
+        // Compare the new location with the previous location or any other logic as needed
+        // Return true if the location has changed, otherwise false
+
+        // Example logic: Check if the distance between the new location and previous location is significant
+        if (previousLocation != newLocation) {
+            return true;
+        }
+        return false;
+    }
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         googleMap.setMapStyle(
@@ -378,13 +412,7 @@ public class Map extends Fragment implements OnMapReadyCallback,
         PermissionUtils.PermissionDeniedDialog.newInstance(true).show(requireFragmentManager(), "dialog");
     }
 
-    public boolean areTwoCoordinatesClose(Coordinates first, Coordinates second){
-        if(first == null || second == null){
-            return false;
-        }
-        double distance = Math.sqrt(Math.pow(first.latitude - second.latitude, 2) + Math.pow(first.longitude - second.longitude, 2));
-        return distance < 0.0003;
-    }
+
 
     //user stuff
 
@@ -419,6 +447,7 @@ public class Map extends Fragment implements OnMapReadyCallback,
         TextView level = getView().findViewById(R.id.mapLevel);
         level.setText(String.format("%d", MainPlayer.getLevel()));
     }
+
 
     private void animateAndSwitch(View view) {
         // Get the click position

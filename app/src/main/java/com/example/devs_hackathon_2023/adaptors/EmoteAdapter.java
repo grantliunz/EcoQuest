@@ -37,7 +37,7 @@ public class EmoteAdapter extends RecyclerView.Adapter<EmoteAdapter.EmoteViewHol
         Emote emote = emoteList.get(position);
         holder.emoteTitleTextView.setText(emote.getTitle());
 //        holder.emoteDescriptionTextView.setText(emote.getDescription());
-
+        holder.emoteCostTextView.setText(String.valueOf(emote.getType()));
 
 
         holder.emoteImageView.setImageResource(emote.getImagePath());

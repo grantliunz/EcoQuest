@@ -6,11 +6,14 @@ public class Emote {
     private int cost;
     private int imagePath;
 
-    public Emote(String title, String description, int cost, int imagePath) {
+    private String type;
+
+    public Emote(String title, String description, int cost, int imagePath, String type) {
         this.title = title;
         this.description = description;
         this.cost = cost;
         this.imagePath = imagePath;
+        this.type = type;
     }
 
     public String getTitle() {
@@ -27,5 +30,9 @@ public class Emote {
 
     public int getImagePath() {
         return imagePath;
+    }
+
+    public String getType() {
+        return type;
     }
 }
