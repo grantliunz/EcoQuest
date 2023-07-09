@@ -1,5 +1,8 @@
 package com.example.devs_hackathon_2023.Quest;
 
+import android.widget.Toast;
+
+import com.example.devs_hackathon_2023.MainActivity;
 import com.example.devs_hackathon_2023.User.Location;
 import com.example.devs_hackathon_2023.User.MainPlayer;
 import com.example.devs_hackathon_2023.fragments.Map;
@@ -105,6 +108,7 @@ public class Quest {
         noCompleted++;
 
         if (noCompleted >= noTasks){
+            Toast.makeText(MainActivity.map.getContext(), "Quest, '" + title + "' completed", Toast.LENGTH_SHORT).show();
             MainPlayer.completeQuest(this.id); // change to the new completion method
         }
     }
