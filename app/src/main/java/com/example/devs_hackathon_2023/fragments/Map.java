@@ -54,6 +54,7 @@ import com.example.devs_hackathon_2023.User.Player;
 import com.example.devs_hackathon_2023.activities.ProfileActivity;
 import com.example.devs_hackathon_2023.activities.ShopActivity;
 import com.example.devs_hackathon_2023.databinding.FragmentMapBinding;
+import com.example.devs_hackathon_2023.shop.emotes.Emote;
 import com.example.devs_hackathon_2023.utils.PermissionUtils;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -83,6 +84,7 @@ import com.google.maps.android.PolyUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Map extends Fragment implements OnMapReadyCallback,
         GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraIdleListener
@@ -254,8 +256,43 @@ public class Map extends Fragment implements OnMapReadyCallback,
         MarkerOptions myMarkerOptions = new MarkerOptions()
                 .position(myMarkerLocation)
                 .title(MainPlayer.getName())
-                .icon(myIcon).zIndex(1);
+                .icon(myIcon).zIndex(2);
         markers.add(myMarkerOptions);
+
+        // pet
+        Emote pet = MainPlayer.getCurrentPet();
+        if (pet != null){
+            Random r = new Random();
+            double dir = r.nextDouble();
+            double petLat = currentLocation.getLatitude();
+            double petLong = currentLocation.getLongitude();
+            if (dir < 0.25) {
+                // move left
+                petLat += 0.0002;
+            } else if (dir < 0.5){
+                // move right
+                petLat -= 0.0002;
+            } else if (dir < 0.75){
+                // move top
+                petLong += 0.0002;
+            } else{
+                // move bottom
+                petLong -= 0.0002;
+            }
+            LatLng myPetMarkerLocation = new LatLng(petLat, petLong);
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize = 2; // Adjust the sample size as needed for resizing
+            Bitmap markerBitmap = BitmapFactory.decodeResource(getResources(), pet.getImagePath(), options);
+            Bitmap resizedMarkerBitmap = Bitmap.createScaledBitmap(markerBitmap, 150, 150, false);
+            BitmapDescriptor myPetIcon = BitmapDescriptorFactory.fromBitmap((resizedMarkerBitmap));
+
+            MarkerOptions myPetMarkerOptions = new MarkerOptions()
+                    .position(myPetMarkerLocation)
+                    .title(pet.getTitle())
+                    .icon(myPetIcon).zIndex(1);
+            markers.add(myPetMarkerOptions);
+        }
+
         // update friends avatars
         List<Player> players = Database.getPlayers().subList(0,30);
         for (Player friend : players){

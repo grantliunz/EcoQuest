@@ -6,7 +6,6 @@ import com.example.devs_hackathon_2023.MainActivity;
 import com.example.devs_hackathon_2023.Quest.Quest;
 import com.example.devs_hackathon_2023.R;
 import com.example.devs_hackathon_2023.shop.emotes.Emote;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +20,8 @@ public abstract class MainPlayer {
     private static List<Quest> quests;
 
     private static Emote currentEmote;
+
+    private static Emote currentPet;
 
     private static int steps;
 
@@ -90,7 +91,10 @@ public abstract class MainPlayer {
         steps = Msteps;
     }
 
-    public static int getLevel(){return score / XP_PER_LEVEL; }
+    public static int getLevel(){
+//        return 50; // hard code level if needed
+        return score / XP_PER_LEVEL;
+    }
 
 
     public static Location getLocation() {
@@ -173,6 +177,9 @@ public abstract class MainPlayer {
     public static void setEmote(Emote emote){
         currentEmote = emote;
     }
+
+    public static void setPet(Emote pet) {currentPet = pet;}
+    public static Emote getCurrentPet() {return currentPet;}
 
     public static int getXp(){
         return score % XP_PER_LEVEL;
