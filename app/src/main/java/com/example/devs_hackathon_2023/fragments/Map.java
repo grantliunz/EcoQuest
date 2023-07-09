@@ -175,6 +175,9 @@ public class Map extends Fragment implements OnMapReadyCallback,
                                 .title("Connor")
                                 .icon(myIcon).zIndex(1);
                         markers.add(myMarkerOptions);
+                        // update quests
+                        MainPlayer.updateQuests(new com.example.devs_hackathon_2023.User.Location(currentLocation.getLatitude(), currentLocation.getLongitude()));
+
                         // update friends avatars
                         for (Player friend : Database.getPlayers().subList(0,5)){
                             // add a marker
@@ -357,13 +360,7 @@ public class Map extends Fragment implements OnMapReadyCallback,
         PermissionUtils.PermissionDeniedDialog.newInstance(true).show(requireFragmentManager(), "dialog");
     }
 
-    public boolean areTwoCoordinatesClose(Coordinates first, Coordinates second){
-        if(first == null || second == null){
-            return false;
-        }
-        double distance = Math.sqrt(Math.pow(first.latitude - second.latitude, 2) + Math.pow(first.longitude - second.longitude, 2));
-        return distance < 0.0003;
-    }
+
 
     //user stuff
 
@@ -398,6 +395,7 @@ public class Map extends Fragment implements OnMapReadyCallback,
         TextView level = getView().findViewById(R.id.mapLevel);
         level.setText(String.format("%d", MainPlayer.getLevel()));
     }
+
 
     private void animateAndSwitch(View view) {
         // Get the click position

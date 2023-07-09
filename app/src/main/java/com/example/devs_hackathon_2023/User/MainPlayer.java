@@ -101,12 +101,25 @@ public abstract class MainPlayer {
     public static void setupQuest(){
         quests = new ArrayList<>();
         // Add your quest items to the list
-        quests.add(new Quest("Albert Park", "Discover the hidden wonders of the park.", "abc123", 86, 168.8421, false, R.drawable.quest1, 1));
-        quests.add(new Quest("Auckland Botanic Gardens", "Discover the hidden wonders of the gardens.", "abc123", 15, 168.8421, false, R.drawable.quest2, 1));
+        quests.add(new Quest("Albert Park", "Discover the hidden wonders of the park.", "abc123", 86, 168.8421, false, R.drawable.quest1, 1, new Location(-36.850109, 174.767700)));
+        quests.add(new Quest("Touch Grass", "Visit 2 green areas on the map", "abc123", 86, 168.8421, true, R.drawable.quest1, 2));
+        quests.add(new Quest("Auckland Botanic Gardens", "Discover the hidden wonders of the gardens.", "abc123", 15, 168.8421, false, R.drawable.quest2, 1, new Location(-37.0079937, 174.905168380951)));
         quests.add(new Quest("Straight A's", "Visit 3 places that start with the letter A", "abc123", 86, 168.8421, true, R.drawable.quest1, 3));
-        quests.add(new Quest("Auckland Botanic Gardens", "Discover the hidden wonders of the gardens.", "abc123", 15, 168.8421, false, R.drawable.quest2));
-        quests.add(new Quest("Auckland Domain", "Discover the hidden wonders of the park.", "abc123", 86, 168.8421, false, R.drawable.quest1));
-        quests.add(new Quest("Auckland Botanic Test", "Discover the hidden wonders of the gardens.", "abc123", 40, 168.8421, true, R.drawable.quest2));
+        quests.add(new Quest("Sky High", "Visit the Sky Tower", "abc123", 15, 168.8421, false, R.drawable.quest2, 1, new Location(-36.848450, 174.762192)));
+        quests.add(new Quest("Historical Journey", "Connect with history at the Auckland Museum", "abc123", 50, 168.8421, false, R.drawable.quest2, 1, new Location(-36.860655, 174.777744)));
+        quests.add(new Quest("Get an Education", "Visit the Owen G Glenn Building", "abc123", 50, 168.8421, false, R.drawable.quest2, 1, new Location(-36.85312875, 174.771288840132)));
+    }
+
+    public static void updateQuests(Location curLocation){
+        for (Quest quest : quests){
+            if (!quest.isCompleted()){
+                if (quest.testQuestCompletion(curLocation)){
+                    // quest is completed
+                    quest.completeOneTask();
+                }
+            }
+
+        }
     }
 
     public static List<Player> getFriends() {
