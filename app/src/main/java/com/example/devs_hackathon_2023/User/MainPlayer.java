@@ -94,12 +94,24 @@ public abstract class MainPlayer {
     public static void setupQuest(){
         quests = new ArrayList<>();
         // Add your quest items to the list
-        quests.add(new Quest("Albert Park", "Discover the hidden wonders of the park.", "abc123", 86, 168.8421, false, R.drawable.quest1, 1));
+        quests.add(new Quest("Albert Park", "Discover the hidden wonders of the park.", "abc123", 86, 168.8421, false, R.drawable.quest1, 1, new Location(-36.850109, 174.767700)));
         quests.add(new Quest("Auckland Botanic Gardens", "Discover the hidden wonders of the gardens.", "abc123", 15, 168.8421, false, R.drawable.quest2, 1));
         quests.add(new Quest("Straight A's", "Visit 3 places that start with the letter A", "abc123", 86, 168.8421, true, R.drawable.quest1, 3));
         quests.add(new Quest("Auckland Botanic Gardens", "Discover the hidden wonders of the gardens.", "abc123", 15, 168.8421, false, R.drawable.quest2));
         quests.add(new Quest("Auckland Domain", "Discover the hidden wonders of the park.", "abc123", 86, 168.8421, false, R.drawable.quest1));
         quests.add(new Quest("Auckland Botanic Test", "Discover the hidden wonders of the gardens.", "abc123", 15, 168.8421, true, R.drawable.quest2));
+    }
+
+    public static void updateQuests(Location curLocation){
+        for (Quest quest : quests){
+            if (!quest.isCompleted()){
+                if (quest.testQuestCompletion(curLocation)){
+                    System.out.println("completing");
+                    quest.completeOneTask();
+                }
+            }
+
+        }
     }
 
     public static List<Player> getFriends() {
