@@ -81,8 +81,6 @@ import com.google.maps.model.TravelMode;
 import com.google.maps.DirectionsApiRequest;
 import com.google.maps.android.PolyUtil;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -198,15 +196,10 @@ public class Map extends Fragment implements OnMapReadyCallback,
 //                        Log.d("TAG", "loc: lat " + currentLocation.getLatitude() + ", long " + currentLocation.getLongitude());
                         updateIcons();
                         System.out.println("Location: " + location.getLatitude() + ", " + location.getLongitude());
-                        int count = 0;
+
                         while (distanceToXp >= 100) {
-                            count++;
                             MainPlayer.setScore(MainPlayer.getScore() + 10);
                             distanceToXp -= 100;
-                        }
-
-                        if (count > 0) {
-                            ShowGainedXpDialog(count * 10);
                         }
 
                         loadProfile();
@@ -254,18 +247,6 @@ public class Map extends Fragment implements OnMapReadyCallback,
 
         setUpProfileButton();
         loadProfile();
-    }
-
-    private void ShowGainedXpDialog(int i) {
-        TextView xp = getView().findViewById(R.id.xpText);
-        xp.setText("+" + i + " XP");
-        xp.setVisibility(View.VISIBLE);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                xp.setVisibility(View.INVISIBLE);
-            }
-        }, 2000);
     }
 
     private void updateIcons () {
