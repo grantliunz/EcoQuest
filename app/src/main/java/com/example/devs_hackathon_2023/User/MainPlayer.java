@@ -37,7 +37,7 @@ public abstract class MainPlayer {
 
     public static void createPlayer(String Mname, String Mid, Location Mlocation){
         name = Mname;
-        id = Mid;
+        id = "sdopouicfhmaxdniuifhnzoidsuhfcnz";
         score = 0;
         location = Mlocation;
         quests = new ArrayList<>();
@@ -48,7 +48,9 @@ public abstract class MainPlayer {
         landmarksVisited = 0;
     }
 
-
+    public static void setupId() {
+        id = "sdopouicfhmaxdniuifhnzoidsuhfcnz";
+    }
     public static String getName() {
         return name;
     }

@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         MainPlayer.setName("Aaron Stevens");
         MainPlayer.setupQuest();
         MainPlayer.setupScore();
-
+        MainPlayer.setupId();
     }
 
     @Override

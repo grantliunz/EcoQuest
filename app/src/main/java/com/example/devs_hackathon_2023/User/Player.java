@@ -13,6 +13,12 @@ public class Player{
     private List<Quest> quests;
     private int steps;
 
+    public Player(String name, String id, int score) {
+        this.name = name;
+        this.id = id;
+        this.score = score;
+    }
+
     public Player(String name, String id, Location location, List<Quest> quests, int steps) {
         this.name = name;
         this.id = id;
