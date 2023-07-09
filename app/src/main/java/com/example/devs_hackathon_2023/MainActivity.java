@@ -1,11 +1,16 @@
 package com.example.devs_hackathon_2023;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
+import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 
 import com.example.devs_hackathon_2023.User.MainPlayer;
@@ -32,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     private View boundedBox;
 
-
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
 
     private Map map = new Map();
     private Quests quests = new Quests();
@@ -99,13 +104,16 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-//    @Override
-//    public boolean onSupportNavigateUp() {
-//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-//        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-//                || super.onSupportNavigateUp();
-//    }
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode != MainActivity.REQUEST_IMAGE_CAPTURE && resultCode != Activity.RESULT_OK) {
+            Toast.makeText(this, "Image saved", Toast.LENGTH_SHORT).show();
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            MediaStore.Images.Media.insertImage(getContentResolver(), imageBitmap, "title", "description");
+        }
+    }
 
 
     @Override
