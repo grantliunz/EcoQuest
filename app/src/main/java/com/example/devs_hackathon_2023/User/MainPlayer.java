@@ -76,6 +76,14 @@ public abstract class MainPlayer {
         score = Mscore;
     }
 
+    public static int getSteps() {
+        return steps;
+    }
+
+    public static void setSteps(int Msteps) {
+        steps = Msteps;
+    }
+
     public static int getLevel(){return score / XP_PER_LEVEL; }
 
     public static Location getLocation() {
