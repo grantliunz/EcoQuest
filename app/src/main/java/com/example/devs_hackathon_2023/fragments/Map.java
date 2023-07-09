@@ -1,7 +1,5 @@
 package com.example.devs_hackathon_2023.fragments;
 
-import static androidx.fragment.app.FragmentManager.TAG;
-
 import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -22,8 +20,8 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -78,10 +76,9 @@ import com.google.maps.android.PolyUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Map extends Fragment implements OnMapReadyCallback,
-        GoogleMap.OnMyLocationButtonClickListener
+        GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraIdleListener
         {
 
     public class Coordinates {
@@ -106,11 +103,11 @@ public class Map extends Fragment implements OnMapReadyCallback,
     private PolylineOptions currPolylineOptions;
 
 
-            private FusedLocationProviderClient fusedLocationClient;
+    private FusedLocationProviderClient fusedLocationClient;
     private LocationCallback locationCallback;
     private Location currentLocation;
     private Coordinates targetLocation;
-
+    private Handler delayedHandler;
 
     public void setTargetLocation(double latitude, double longitude){
         this.targetLocation = new Coordinates(latitude, longitude);
@@ -166,30 +163,7 @@ public class Map extends Fragment implements OnMapReadyCallback,
                     if (location != null) {
                         currentLocation = location;
 //                        Log.d("TAG", "loc: lat " + currentLocation.getLatitude() + ", long " + currentLocation.getLongitude());
-                        ArrayList<MarkerOptions> markers = new ArrayList<>();
-                        // update user avatar
-                        LatLng myMarkerLocation = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-                        BitmapDescriptor myIcon = getAvatarIcon(R.drawable.connor_icon, 150, true);
-                        MarkerOptions myMarkerOptions = new MarkerOptions()
-                                .position(myMarkerLocation)
-                                .title("Connor")
-                                .icon(myIcon).zIndex(1);
-                        markers.add(myMarkerOptions);
-                        // update friends avatars
-                        for (Player friend : Database.getPlayers().subList(0,5)){
-                            // add a marker
-                            LatLng markerLocation = new LatLng(friend.getLocation().getLatitude(), friend.getLocation().getLongitude());
-                            BitmapDescriptor icon = getAvatarIcon(R.drawable.pfp, 150, false);
-                            MarkerOptions markerOptions = new MarkerOptions()
-                                    .position(markerLocation)
-                                    .title(friend.getName())
-                                    .icon(icon);
-                           markers.add(markerOptions);
-                        }
-                        map.clear();
-                        for (MarkerOptions marker : markers){
-                            map.addMarker(marker);
-                        }
+                        updateIcons();
                         updatePolyline();
                         if(targetLocation != null){
                             // check if current location is close to target location
@@ -208,19 +182,43 @@ public class Map extends Fragment implements OnMapReadyCallback,
         setupShopButton();
 
         setUpProfileButton();
-
         loadProfile();
+    }
 
+    private void updateIcons () {
+        ArrayList<MarkerOptions> markers = new ArrayList<>();
+        // update user avatar
+        LatLng myMarkerLocation = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        BitmapDescriptor myIcon = getAvatarIcon(MainPlayer.getProfilePicture(), 150, true);
+        MarkerOptions myMarkerOptions = new MarkerOptions()
+                .position(myMarkerLocation)
+                .title(MainPlayer.getName())
+                .icon(myIcon).zIndex(1);
+        markers.add(myMarkerOptions);
+        // update friends avatars
+        List<Player> players = Database.getPlayers().subList(0,30);
+        for (Player friend : players){
+            // add a marker
+            LatLng markerLocation = new LatLng(friend.getLocation().getLatitude(), friend.getLocation().getLongitude());
+            BitmapDescriptor icon = getAvatarIcon(R.drawable.pfp, 150, false);
+            MarkerOptions markerOptions = new MarkerOptions()
+                    .position(markerLocation)
+                    .title(friend.getName())
+                    .icon(icon);
+            markers.add(markerOptions);
+        }
+        map.clear();
+        for (MarkerOptions marker : markers){
+            map.addMarker(marker);
+        }
     }
 
     private void startLocationUpdates() {
-        LocationRequest locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY,1000).setMinUpdateIntervalMillis(500).setMaxUpdateDelayMillis(1500).build();
-
+        LocationRequest locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY,5000).setMinUpdateIntervalMillis(3000).setMaxUpdateDelayMillis(7000).build();
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-
         fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
     }
 
@@ -238,11 +236,11 @@ public class Map extends Fragment implements OnMapReadyCallback,
         );
         map = googleMap;
         map.setOnMyLocationButtonClickListener(this);
+        map.setOnCameraMoveStartedListener(this);
+        map.setOnCameraIdleListener(this);
         enableMyLocation();
         onMyLocationButtonClick();
         startLocationUpdates();
-
-
 
         // Move the camera to the user's location
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
@@ -270,7 +268,6 @@ public class Map extends Fragment implements OnMapReadyCallback,
         Bitmap markerBitmap = BitmapFactory.decodeResource(getResources(), resourceId, options);
         Bitmap resizedMarkerBitmap = Bitmap.createScaledBitmap(markerBitmap, size, size, false);
 
-
         // Create a circular mask
         Bitmap roundedMarkerBitmap = Bitmap.createBitmap(resizedMarkerBitmap.getWidth(), resizedMarkerBitmap.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(roundedMarkerBitmap);
@@ -293,7 +290,7 @@ public class Map extends Fragment implements OnMapReadyCallback,
             borderPaint.setColor(borderColor);
             borderPaint.setDither(true); // Enable dithering for better color gradient
 
-        // Adjust the position of the border based on the border width
+            // Adjust the position of the border based on the border width
             float borderOffset = borderWidth / 2f;
             RectF borderRect = new RectF(rect.left + borderOffset, rect.top + borderOffset, rect.right - borderOffset, rect.bottom - borderOffset);
             canvas.drawOval(borderRect, borderPaint);
@@ -313,7 +310,6 @@ public class Map extends Fragment implements OnMapReadyCallback,
 //            map.setMyLocationEnabled(true);
             return;
         }
-
         PermissionUtils.requestLocationPermissions((AppCompatActivity) requireActivity(), LOCATION_PERMISSION_REQUEST_CODE, true);
     }
 
@@ -332,8 +328,6 @@ public class Map extends Fragment implements OnMapReadyCallback,
                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 16f));
             }
         }
-
-
         return true;
     }
 
@@ -366,7 +360,6 @@ public class Map extends Fragment implements OnMapReadyCallback,
     }
 
     //user stuff
-
     private void setUpProfileButton() {
         RelativeLayout layout = getView().findViewById(R.id.profileButton);
         layout.setOnClickListener(new View.OnClickListener() {
@@ -514,23 +507,8 @@ public class Map extends Fragment implements OnMapReadyCallback,
         }
     }
 
-//    @Override
-//    public void onCameraIdle() {
-//        if (currentLocation == null)
-//            return;
-//        LatLng origin = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-//        //-36.8570, 174.7650
-//        LatLng destination = new LatLng(-36.8570, 174.7650);
-//        try {
-//            drawRoute(origin, destination);
-//        } catch (PackageManager.NameNotFoundException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-
     @SuppressLint("RestrictedApi")
     private void updatePolyline() {
-        Log.d(TAG, "updatePolyline: " + currentLocation);
         if (currentLocation == null)
             return;
         LatLng origin = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
@@ -542,45 +520,31 @@ public class Map extends Fragment implements OnMapReadyCallback,
             throw new RuntimeException(e);
         }
     }
+    @Override
+    public void onCameraMoveStarted(int reason) {
+        // This method will be called when the camera starts to move
+        // Handle the camera move event and call your function here
+        if (delayedHandler != null){
+            delayedHandler.removeCallbacksAndMessages(null);
+        }
+        stopLocationUpdates();
+    }
 
-//    @Override
-//    public void onCameraMoveStarted(int reason) {
-//        if (!isCanceled) {
-//            map.clear();
-//        }
-//
-//        String reasonText = "UNKNOWN_REASON";
-//        currPolylineOptions = new PolylineOptions().width(5);
-//        switch (reason) {
-//            case OnCameraMoveStartedListener.REASON_GESTURE:
-//                currPolylineOptions.color(Color.BLUE);
-//                reasonText = "GESTURE";
-//                break;
-//            case OnCameraMoveStartedListener.REASON_API_ANIMATION:
-//                currPolylineOptions.color(Color.RED);
-//                reasonText = "API_ANIMATION";
-//                break;
-//            case OnCameraMoveStartedListener.REASON_DEVELOPER_ANIMATION:
-//                currPolylineOptions.color(Color.GREEN);
-//                reasonText = "DEVELOPER_ANIMATION";
-//                break;
-//        }
-//        Log.d(TAG, "onCameraMoveStarted(" + reasonText + ")");
-//        addCameraTargetToPath();
-//    }
+    @Override
+    public void onCameraIdle() {
+        // This method will be called when the camera movement has ended
+        // Handle the camera idle event and call your function here
+        delayedHandler = new Handler();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                // Code to be executed after the delay
+                startLocationUpdates();
+            }
+        };
 
-//    @Override
-//    public void onCameraMove() {
-//        // When the camera is moving, add its target to the current path we'll draw on the map.
-//        if (currPolylineOptions != null) {
-//            addCameraTargetToPath();
-//        }
-//        Log.d(TAG, "onCameraMove");
-//    }
-
-
-
-
+        delayedHandler.postDelayed(runnable, 1500);
+    }
 
 }
 
