@@ -76,8 +76,7 @@ public class QuestAdapter extends RecyclerView.Adapter<QuestAdapter.QuestViewHol
                     System.out.println("123123123");
 
                     MainActivity.map.setTargetLocation(destinationLatLng.latitude, destinationLatLng.longitude);
-
-
+                    Toast.makeText(v.getContext(), "Destination set", Toast.LENGTH_SHORT).show();
                 }
             }
         });

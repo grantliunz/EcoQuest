@@ -616,7 +616,7 @@ public class Map extends Fragment implements OnMapReadyCallback,
             return;
         LatLng origin = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         // -36.8570, 174.7650
-        LatLng destination = new LatLng(-36.8570, 174.7650);
+        LatLng destination = new LatLng(0, 0);
         try {
             drawRoute(origin, new LatLng(targetLocation.latitude, targetLocation.longitude));
         } catch (PackageManager.NameNotFoundException e) {
