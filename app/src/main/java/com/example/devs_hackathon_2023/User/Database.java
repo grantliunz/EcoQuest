@@ -1,17 +1,21 @@
 package com.example.devs_hackathon_2023.User;
 
 import com.example.devs_hackathon_2023.Quest.Quest;
+import com.example.devs_hackathon_2023.R;
 
 import org.json.JSONArray;
 
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class Database {
 
     private static ArrayList<Player> players;
+    private static List<Integer> imageList = new ArrayList<Integer>(Arrays.asList(R.drawable.bill_icon, R.drawable.connor_icon, R.drawable.dhruv_icon, R.drawable.elon_icon, R.drawable.grant_icon, R.drawable.jordan_icon, R.drawable.leander_icon, R.drawable.zucc_icon, R.drawable.chatgpt, R.drawable.le, R.drawable.raymond));
+
 
     //Setup the database by reading JSON file with Players
     public static void setupDatabase(InputStream inputStream) {
@@ -40,7 +44,7 @@ public abstract class Database {
                     int questPoints = jsonQuests.getJSONObject(j).getInt("points");
                     quests.add(new Quest(questName, questDescription, questId, questPoints, questTime, questCompleted, 123));
                 }
-                players.add(new Player(name, id, location, quests, steps));
+                players.add(new Player(name, id, location, quests, steps, imageList.get(i % 10)));
             }
         } catch (Exception e) {
             e.printStackTrace();

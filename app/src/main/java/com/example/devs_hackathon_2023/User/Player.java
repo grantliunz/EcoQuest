@@ -15,8 +15,8 @@ public class Player{
     private Location location;
     private List<Quest> quests;
     private int steps;
-
     private Bitmap profilePicture;
+    private int profilePictureId;
 
     public Player(String name, String id, int score, Bitmap profilePicture) {
         this.name = name;
@@ -25,12 +25,13 @@ public class Player{
         this.profilePicture = profilePicture;
     }
 
-    public Player(String name, String id, Location location, List<Quest> quests, int steps) {
+    public Player(String name, String id, Location location, List<Quest> quests, int steps, int profilePictureId) {
         this.name = name;
         this.id = id;
         this.location = location;
         this.quests = quests;
         this.steps = steps;
+        this.profilePictureId = profilePictureId;
         score = calcScore();
         level = calcLevel();
     }
@@ -83,6 +84,10 @@ public class Player{
 
     public Bitmap getProfilePicture() {
         return profilePicture;
+    }
+
+    public int getProfilePictureId() {
+        return profilePictureId;
     }
 
 }
