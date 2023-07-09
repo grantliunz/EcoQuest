@@ -1,11 +1,16 @@
 package com.example.devs_hackathon_2023;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
+import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 
 import com.example.devs_hackathon_2023.User.MainPlayer;
@@ -32,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     private View boundedBox;
 
-
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
 
     public static Map map = new Map();
     public static Quests quests = new Quests();
@@ -58,12 +63,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.task_button) {
+                    map.cancelDelayedHandler();
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, quests).commit();
                     return true;
                 } else if (item.getItemId() == R.id.map_button) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, map).commit();
                     return true;
                 } else if (item.getItemId() == R.id.social_button) {
+                    map.cancelDelayedHandler();
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, social).commit();
                     return true;
                 }
@@ -86,8 +93,7 @@ public class MainActivity extends AppCompatActivity {
     private void setUpMainPlayer() {
 
         MainPlayer.setProfilePicture(R.drawable.aaron_icon);
-        MainPlayer.setName("John Doe");
-        MainPlayer.setScore(30);
+        MainPlayer.setName("Aaron Stevens");
         MainPlayer.setupQuest();
         MainPlayer.setupScore();
 
@@ -100,13 +106,16 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-//    @Override
-//    public boolean onSupportNavigateUp() {
-//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-//        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-//                || super.onSupportNavigateUp();
-//    }
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode != MainActivity.REQUEST_IMAGE_CAPTURE && resultCode != Activity.RESULT_OK) {
+            Toast.makeText(this, "Image saved", Toast.LENGTH_SHORT).show();
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            MediaStore.Images.Media.insertImage(getContentResolver(), imageBitmap, "title", "description");
+        }
+    }
 
 
     @Override
