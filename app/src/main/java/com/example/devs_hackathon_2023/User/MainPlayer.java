@@ -29,6 +29,11 @@ public abstract class MainPlayer {
 
     private static List<Player> friends;
 
+    private static int distanceWalked;
+
+    private static int landmarksVisited;
+
+
 
     public static void createPlayer(String Mname, String Mid, Location Mlocation){
         name = Mname;
@@ -39,6 +44,8 @@ public abstract class MainPlayer {
         steps = 0;
         money = 0;
         friends = new ArrayList<>();
+        distanceWalked = 0;
+        landmarksVisited = 0;
     }
 
 
@@ -99,7 +106,7 @@ public abstract class MainPlayer {
         quests.add(new Quest("Straight A's", "Visit 3 places that start with the letter A", "abc123", 86, 168.8421, true, R.drawable.quest1, 3));
         quests.add(new Quest("Auckland Botanic Gardens", "Discover the hidden wonders of the gardens.", "abc123", 15, 168.8421, false, R.drawable.quest2));
         quests.add(new Quest("Auckland Domain", "Discover the hidden wonders of the park.", "abc123", 86, 168.8421, false, R.drawable.quest1));
-        quests.add(new Quest("Auckland Botanic Test", "Discover the hidden wonders of the gardens.", "abc123", 15, 168.8421, true, R.drawable.quest2));
+        quests.add(new Quest("Auckland Botanic Test", "Discover the hidden wonders of the gardens.", "abc123", 40, 168.8421, true, R.drawable.quest2));
     }
 
     public static List<Player> getFriends() {
@@ -131,4 +138,31 @@ public abstract class MainPlayer {
     public static void setEmote(Emote emote){
         currentEmote = emote;
     }
+
+    public static int getXp(){
+        return score % XP_PER_LEVEL;
+    }
+
+    public static int getSteps() {
+        return steps;
+    }
+
+    public static int getDistanceWalked() {
+        return distanceWalked;
+    }
+
+    public static int getLandmarksVisited() {
+        return landmarksVisited;
+    }
+
+    public static int getCompleted(){
+        int completed = 0;
+        for (Quest quest : quests) {
+            if (quest.isCompleted()) {
+                completed ++;
+            }
+        }
+        return completed;
+    }
+
 }
