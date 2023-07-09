@@ -2,6 +2,7 @@ package com.example.devs_hackathon_2023.User;
 
 import android.media.Image;
 
+import com.example.devs_hackathon_2023.MainActivity;
 import com.example.devs_hackathon_2023.Quest.Quest;
 import com.example.devs_hackathon_2023.R;
 import com.example.devs_hackathon_2023.shop.emotes.Emote;
@@ -120,13 +121,13 @@ public abstract class MainPlayer {
     public static void setupQuest(){
         quests = new ArrayList<>();
         // Add your quest items to the list
-        quests.add(new Quest("Albert Park", "Discover the hidden wonders of the park.", "abc123", 86, 168.8421, false, R.drawable.quest1, 1, new Location(-36.850109, 174.767700)));
-        quests.add(new Quest("Touch Grass", "Visit 2 green areas on the map", "abc123", 86, 168.8421, true, R.drawable.quest1, 2));
-        quests.add(new Quest("Auckland Botanic Gardens", "Discover the hidden wonders of the gardens.", "abc123", 15, 168.8421, false, R.drawable.quest2, 1, new Location(-37.0079937, 174.905168380951)));
-        quests.add(new Quest("Straight A's", "Visit 3 places that start with the letter A", "abc123", 86, 168.8421, true, R.drawable.quest1, 3));
-        quests.add(new Quest("Sky High", "Visit the Sky Tower", "abc123", 15, 168.8421, false, R.drawable.quest2, 1, new Location(-36.848450, 174.762192)));
-        quests.add(new Quest("Historical Journey", "Connect with history at the Auckland Museum", "abc123", 50, 168.8421, false, R.drawable.quest2, 1, new Location(-36.860655, 174.777744)));
-        quests.add(new Quest("Get an Education", "Visit the Owen G Glenn Building", "abc123", 50, 168.8421, false, R.drawable.quest2, 1, new Location(-36.85312875, 174.771288840132)));
+        quests.add(new Quest("Albert Park", "Discover the hidden wonders of the park.", "1", 86, 168.8421, false, R.drawable.quest1, 1, new Location(-36.850109, 174.767700)));
+        quests.add(new Quest("Touch Grass", "Visit 2 green areas on the map", "2", 86, 168.8421, false, R.drawable.quest1, 2));
+        quests.add(new Quest("Auckland Botanic Gardens", "Discover the hidden wonders of the gardens.", "3", 15, 168.8421, false, R.drawable.quest2, 1, new Location(-37.0079937, 174.905168380951)));
+        quests.add(new Quest("Straight A's", "Visit 3 places that start with the letter A", "4", 86, 168.8421, false, R.drawable.quest1, 3));
+        quests.add(new Quest("Sky High", "Visit the Sky Tower", "5", 15, 168.8421, false, R.drawable.quest2, 1, new Location(-36.848450, 174.762192)));
+        quests.add(new Quest("Historical Journey", "Connect with history at the Auckland Museum", "6", 50, 168.8421, false, R.drawable.quest2, 1, new Location(-36.860655, 174.777744)));
+        quests.add(new Quest("Get an Education", "Visit the Owen G Glenn Building", "7", 50, 168.8421, false, R.drawable.quest2, 1, new Location(-36.85312875, 174.771288840132)));
     }
 
     public static void updateQuests(Location curLocation){
@@ -149,10 +150,12 @@ public abstract class MainPlayer {
         friends.add(friend);
     }
 
-    public static void completeQuest(int questId){
+    public static void completeQuest(String questId){
         Quest quest = quests.stream().filter(q -> q.getId().equals(questId)).findFirst().get();
         quest.setCompleted(true);
         score += quest.getValue();
+
+        MainActivity.map.setTargetLocation(0, 0);
     }
 
     public static void setupScore(){

@@ -73,16 +73,10 @@ public class QuestAdapter extends RecyclerView.Adapter<QuestAdapter.QuestViewHol
                     System.out.println("setting new destination");
                     // set target location
                     LatLng destinationLatLng = new LatLng(quest.getQuestLoc().getLatitude(), quest.getQuestLoc().getLongitude());
-                    LatLng currentPlayerLatLng = new LatLng (MainActivity.map.getCurrentLocation().getLatitude(), MainActivity.map.getCurrentLocation().getLongitude());
-
                     System.out.println("123123123");
 
-                    try {
-                        MainActivity.map.drawRoute(currentPlayerLatLng, destinationLatLng);
+                    MainActivity.map.setTargetLocation(destinationLatLng.latitude, destinationLatLng.longitude);
 
-                    } catch (PackageManager.NameNotFoundException e) {
-                        throw new RuntimeException(e);
-                    }
 
                 }
             }

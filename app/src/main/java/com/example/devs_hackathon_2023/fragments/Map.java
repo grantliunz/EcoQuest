@@ -97,6 +97,8 @@ public class Map extends Fragment implements OnMapReadyCallback,
         }
     }
 
+
+
     private final int THRESHOLD_DISTANCE = 1;
     private FragmentMapBinding binding;
     private GoogleMap map;
@@ -573,6 +575,9 @@ public class Map extends Fragment implements OnMapReadyCallback,
     }
     public void drawRoute(LatLng origin, LatLng destination) throws PackageManager.NameNotFoundException {
 
+        if (destination.latitude == 0 && destination.longitude == 0){
+            return;
+        }
         Context appContext = requireActivity().getApplicationContext();
         ApplicationInfo ai = appContext.getPackageManager().getApplicationInfo(appContext.getPackageName(),
                 PackageManager.GET_META_DATA);
@@ -618,7 +623,7 @@ public class Map extends Fragment implements OnMapReadyCallback,
         // -36.8570, 174.7650
         LatLng destination = new LatLng(-36.8570, 174.7650);
         try {
-            drawRoute(origin, destination);
+            drawRoute(origin, new LatLng(targetLocation.latitude, targetLocation.longitude));
         } catch (PackageManager.NameNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -637,4 +642,20 @@ public class Map extends Fragment implements OnMapReadyCallback,
             delayedHandler.removeCallbacksAndMessages(null);
         }
     }
+
+            @Override
+            public void onCameraIdle() {
+                // This method will be called when the camera movement has ended
+                // Handle the camera idle event and call your function here
+                delayedHandler = new Handler();
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        // Code to be executed after the delay
+                        startLocationUpdates();
+                    }
+                };
+                delayedHandler.postDelayed(runnable, 1500);
+            }
+
 }
