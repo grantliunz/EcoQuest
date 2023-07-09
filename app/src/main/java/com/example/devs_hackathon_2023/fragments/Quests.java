@@ -45,7 +45,6 @@ public class Quests extends Fragment {
         // Set up the adapter
         questAdapter = new QuestAdapter(questList, getContext());
         recyclerView.setAdapter(questAdapter);
-
         return view;
     }
 

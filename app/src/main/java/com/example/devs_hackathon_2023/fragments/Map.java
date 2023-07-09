@@ -45,6 +45,7 @@ import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.devs_hackathon_2023.MainActivity;
 import com.example.devs_hackathon_2023.Quest.Quest;
 import com.example.devs_hackathon_2023.R;
 import com.example.devs_hackathon_2023.User.Database;
@@ -123,6 +124,10 @@ public class Map extends Fragment implements OnMapReadyCallback,
     public void setTargetLocation(double latitude, double longitude){
         this.targetLocation = new Coordinates(latitude, longitude);
     }
+
+    public Location getCurrentLocation(){
+        return currentLocation;
+        }
 
     @Nullable
     @Override
@@ -585,8 +590,8 @@ public class Map extends Fragment implements OnMapReadyCallback,
                 R.anim.blow_up);
         startActivity(intent, options.toBundle());
     }
+    public void drawRoute(LatLng origin, LatLng destination) throws PackageManager.NameNotFoundException {
 
-    private void drawRoute(LatLng origin, LatLng destination) throws PackageManager.NameNotFoundException {
         Context appContext = requireActivity().getApplicationContext();
         ApplicationInfo ai = appContext.getPackageManager().getApplicationInfo(appContext.getPackageName(),
                 PackageManager.GET_META_DATA);
@@ -645,20 +650,6 @@ public class Map extends Fragment implements OnMapReadyCallback,
         stopLocationUpdates();
     }
 
-    @Override
-    public void onCameraIdle() {
-        // This method will be called when the camera movement has ended
-        // Handle the camera idle event and call your function here
-        delayedHandler = new Handler();
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                // Code to be executed after the delay
-                startLocationUpdates();
-            }
-        };
-        delayedHandler.postDelayed(runnable, 1500);
-    }
 
     public void cancelDelayedHandler() {
         if (delayedHandler != null){
