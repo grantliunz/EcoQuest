@@ -76,6 +76,9 @@ public abstract class MainPlayer {
         score = Mscore;
     }
 
+    public static void calculateLevel(){
+
+    }
     public static int getSteps() {
         return steps;
     }
@@ -86,6 +89,7 @@ public abstract class MainPlayer {
 
     public static int getLevel(){return score / XP_PER_LEVEL; }
 
+
     public static Location getLocation() {
         return location;
     }
@@ -93,6 +97,11 @@ public abstract class MainPlayer {
     public static void setLocation(Location Mlocation) {
         location = Mlocation;
     }
+
+    public static void setDistanceWalked(int distanceWalked) {
+        MainPlayer.distanceWalked = distanceWalked;
+    }
+
 
     public static List<Quest> getQuests() {
         return quests;
